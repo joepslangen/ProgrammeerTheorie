@@ -1,7 +1,7 @@
 # ProgrammeerTheorie
 Rush hour algorithm
 
-# itnroduction 
+# introduction 
 
 Rush hour is originally played in a 6x6 grid
 The grid is displayed with several cars which have a size of 2 or three grid positions
