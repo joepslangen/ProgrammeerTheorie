@@ -4,3 +4,42 @@ It is not possible for the cars to overlap or be (partly) outside the grid
 The orientation of the cars is eather vertical or horizontal
 Cars can only be moved one at a time and only in empty spaces
 The goal of the game is to move the targeted car to the exit of the grid which is located near the center of the right edge of the grid. 
+
+CARS = 6
+EMPTY_GRID = '.'
+board = [[EMPTY_GRID] * CARS for _ in range(CARS)]
+# Potential board:
+#   [
+#     ['.', '.', '.', 'B', 'C', 'C'],
+#     ['.', '.', '.', 'B', '.', '.'],
+#     ['.', 'A', 'A', 'B', '.', '.'],
+#     ['E', 'D', 'D', 'D', '.', '.'],
+#     ['E', '.', '.', '.', '.', '.'],
+#     ['F', 'F', 'G', 'G', '.', '.'],
+#   ]
+
+Problem: orientation either horizontal or vertical?
+
+UPPER_CASE = horizontal
+LOWER_case = vertical 
+
+# Potential board:
+#   [
+#     ['.', '.', '.', 'b', 'C', 'C'],
+#     ['.', '.', '.', 'b', '.', '.'],
+#     ['.', 'A', 'A', 'b', '.', '.'],
+#     ['e', 'D', 'D', 'D', '.', '.'],
+#     ['e', '.', '.', '.', '.', '.'],
+#     ['F', 'F', 'G', 'G', '.', '.'],
+#   ]
+
+Solution 
+# Potential board:
+#   [
+#     ['.', '.', '.', '', 'C', 'C'],
+#     ['.', '.', '.', '.', '.', '.'],
+#     ['.', 'A', 'A', '.', '.', '.'],
+#     ['D', 'D', 'D', 'b, '.', '.'],
+#     ['e', '.', '.', 'b', '.', '.'],
+#     ['e', 'F', 'F', 'b', 'G', 'G'],
+#   ]
