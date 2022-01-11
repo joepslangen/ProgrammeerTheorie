@@ -13,16 +13,3 @@ class Car():
         self._length = length
         self.column = column
         self.row = row
-
-    #define move functions (not in use yet)
-    def move_up(self):
-        self.row -=1
-
-    def move_down(self):
-        self.row += 1
-
-    def move_right(self):
-        self.column -= 1
-
-    def move_right(self):
-        self.column += 1
