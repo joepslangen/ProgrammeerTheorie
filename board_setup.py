@@ -12,7 +12,7 @@ import numpy as np
 from car import Car
 
 #read rushhour6x6_1.csv
-Rushhour_df = pd.read_csv("/mnt/c/Users/jaspe/ProgrammeerTheorie/gameboards/Rushhour12x12_7.csv")
+Rushhour_df = pd.read_csv("gameboards/Rushhour9x9_4.csv")
 
 #determine dimensions of the game board
 dimensions = max(Rushhour_df["col"])
@@ -42,11 +42,18 @@ for index in range(len(Rushhour_df)):
     #add car to cars list
     cars.append(car)
 
-#create 6x6 data consisting only of zeros using numpy
-zero_data = np.zeros((dimensions, dimensions))
+#create a ones matrix with dimensions of: dimension+2 x dimension+2 
+#to provide a barrier around the drivable gameboard
+ones_matrix = np.ones((dimensions + 2, dimensions + 2))
 
-#use pandas to create 6x6 DataFrame from the zeros matrix
-game_board = pd.DataFrame(zero_data).astype(int)
+#actual drivable gameboard consists of zeros with dimensions: dimension x dimension
+zeros_matrix = np.zeros((dimensions, dimensions))
+
+#combine the ones matrix and the zeros matrix to create empty board with barriers
+ones_matrix[1:dimensions + 1, 1:dimensions + 1] = zeros_matrix
+
+#use pandas to create 6x6 DataFrame from the board matrix matrix
+game_board = pd.DataFrame(ones_matrix).astype(int)
 
 #cycle through the cars list
 for car in cars: 
@@ -55,14 +62,28 @@ for car in cars:
         #cycle through lenght of the car
         for index in range(0, car._length):
             #replace zeros in DataFrame with the carname in horizontal fashion
-            game_board[car.column + index][car.row] = car._name
+            #correction of 1 since we added a 1 thick layer of barrier around the board
+            game_board.loc[car.row + 1, car.column + index + 1] = car._name
     #if not horizontal, car is vertical
     else:
         #cycle through lenght of the car
         for index in range(0, car._length):
             #replace zeros in DataFrame with the carname in vertical fashion
-            game_board[car.column][car.row + index] = car._name
+            #correction of 1 since we added a 1 thick layer of barrier around the board
+            game_board.loc[car.row + index + 1, car.column + 1] = car._name
 
 #show gameboard
 print(game_board)
 
+#start of a function able to move cars
+def moveCar(game_board, cars):
+    #cycle through the cars in the cars lists
+    for car in cars: 
+        #again check for orientation if horizontal
+        if car._orientation == "H": 
+            #check if the spot on the right of the car is free
+            if game_board.loc[car.row + 1, car.column + car._length + 1] == 0:
+                #if so notify that movement to the right is possible
+                print("The car:", car._name, "can move to the right")
+
+moveCar(game_board, cars)
