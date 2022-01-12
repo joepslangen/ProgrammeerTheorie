@@ -25,6 +25,10 @@ class Board():
         zeros_matrix = np.zeros((self.dimensions, self.dimensions))
         #combine the ones matrix and the zeros matrix to create empty board with barriers
         ones_matrix[1:self.dimensions + 1, 1:self.dimensions + 1] = zeros_matrix
+        #add 2 to ones matrix to show exit
+        col_out = self.dimensions + 1
+        row_out = self.dimensions // 2
+        ones_matrix[row_out][col_out] = 2
         #define a clean board with barrier with the correct dimensions
         self.clean_board = ones_matrix
         #set the game board to the clean board 
