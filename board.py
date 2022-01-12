@@ -15,6 +15,8 @@ class Board():
 
     def __init__(self, Rushhour_df):
         self.cars = []
+        self._rows_init = {}
+        self._cols_init = {}
         self.dimensions = max(Rushhour_df["col"])
 
         #create a ones matrix with dimensions of: dimension+2 x dimension+2 
@@ -46,8 +48,14 @@ class Board():
             car_orientation = Rushhour_df.loc[index, "orientation"]
             #extract orientation from column "col"
             car_column = Rushhour_df.loc[index, "col"]
+
+            self._cols_init[car_name] = car_column
+
             #extract orientation from column "row"
             car_row = Rushhour_df.loc[index, "row"]
+
+            self._rows_init[car_name] = car_row
+
             #extract lenght from column "length"
             car_length = Rushhour_df.loc[index, "length"]
             #define car using Car() class and extracted properties
@@ -123,4 +131,17 @@ class Board():
     def printBoard(self):
         print(self.game_board)
     
-    
+    #write output to csv
+    def writeOutput(self):
+        #create dict to store output
+        output = {}
+        #create headers
+        output['car'] = 'move'
+
+        #calculate movement and add to output dict
+        for car in self.cars:
+            output[car._name] = (car.row - self._rows_init[car._name]) + (car.column - self._cols_init[car._name])
+        
+        #convert dict into pandas Series and write to csv
+        output_series = pd.Series(data=output)
+        output_series.to_csv('output/Rushhour_output.csv', header=False)
