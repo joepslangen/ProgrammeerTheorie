@@ -111,7 +111,7 @@ class Board():
         for car in self.cars: 
             if car._name == carname: 
                 car.row += 1
-
+                
     #function to print game board
     def printBoard(self):
         print(self.game_board)
