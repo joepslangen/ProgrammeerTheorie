@@ -92,7 +92,7 @@ class Board():
 if __name__ == "__main__":
 
     #read rushhour6x6_1.csv
-    Rushhour_df = pd.read_csv("gameboards/Rushhour6x6_1.csv")
+    Rushhour_df = pd.read_csv("gameboards/Rushhour12x12_7.csv")
 
     game = Board(Rushhour_df)
     game.load_cars(Rushhour_df), 
