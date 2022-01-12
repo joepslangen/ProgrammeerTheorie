@@ -103,6 +103,9 @@ class Board():
         for car in self.cars: 
             if car._name == carname: 
                 car.column += 1
+                if car._name == 'X':
+                    if self.game_board.loc[car.row, car.column + car._length] == 2:
+                        print("You did it!")
     
     #to move car up, change its row position
     def moveCarUp (self, carname):
