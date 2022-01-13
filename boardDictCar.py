@@ -21,6 +21,10 @@ class Board():
         #determine dimensions of the gameboard from the .csv file
         self.dimensions = max(Rushhour_df["col"])
 
+        #dictionary to keep initial columns and rows
+        self._rows_init = {}
+        self._cols_init = {}
+
         #create a matrix consisting of ones with dimensions: dimension+2 x dimension+2 
         #to provide a barrier around the drivable gameboard 
         #this was needed to prevent out of range errors ocurring in the moveCheck function
@@ -53,6 +57,9 @@ class Board():
             self.cars[Rushhour_df.loc[index, "car"]]["car_row"] = Rushhour_df.loc[index, "row"]
             #extract lenght from column "length"
             self.cars[Rushhour_df.loc[index, "car"]]["car_length"] = Rushhour_df.loc[index, "length"]
+
+            self._cols_init[Rushhour_df.loc[index, "car"]] = Rushhour_df.loc[index, "col"]
+            self._rows_init[Rushhour_df.loc[index, "car"]] = Rushhour_df.loc[index, "row"]
 
     #place cars from self.cars onto a clean game board
     def place_car(self):
@@ -120,6 +127,18 @@ class Board():
     #function to print game board
     def printBoard(self):
         print(self.game_board)
+
+    def writeOutput(self):
+        output = {}
+        output["car"] = "move"
+
+        for car in self.cars: 
+            output[car] = (self.cars[car]["car_row"] - self._rows_init[car]) + (self.cars[car]["car_column"] - self._cols_init[car])
+
+        #convert dict into pandas Series and write to csv
+        output_series = pd.Series(data=output)
+        output_series.to_csv('output/Rushhour_output.csv', header=False)
+    
 
 if __name__ == "__main__":
 
