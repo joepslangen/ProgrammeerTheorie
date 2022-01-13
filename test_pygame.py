@@ -32,19 +32,41 @@ class Car(object):
         self.movement_speed = 5
 
 # x and y coordinates on the screen 
-x = 100
-y = 100
+# Red car
+x = 120
+y = 185
 
-a = 300
-b = 300
+# Green car
+a = 325
+b = 305
+
+# Pink car
+c = 255
+d = 180
 
 
-# width and height of the car
-width = 40
-height = 60
+# Width and height of the car
+# Red car
+width_1 = 120
+height_1 = 52
 
-# movement speed the car moves over the board
+# Green Car
+width_2 = 52
+height_2 = 120
+
+# Pink car
+width_3 = 52
+height_3 = 120
+
+
+# Movement speed the car moves over the board
 movement_speed = 5
+
+# instances of class Car
+red_car = Car(120, 185, 120, 52)
+green_car = Car(325, 305, 52, 120)
+pink_car = Car(255, 180, 52, 120)
+
 
 # Game Loop
 running = True
@@ -63,29 +85,30 @@ while running:
 
     # We can check if a key is pressed like this
     # Move character left, however make sure car goes not out of bounds
-    # if keys[pygame.K_LEFT] and x > movement_speed: 
-    #     x -= movement_speed
-    # # Move character right, however make sure car goes not out of bounds
-    # if keys[pygame.K_RIGHT] and x < 500 - movement_speed - width:
-    #     x += movement_speed
-    # Move character up, however make sure car goes not out of bounds
-    if keys[pygame.K_UP] and y > movement_speed:
-        y -= movement_speed
-    # Move character down, however make sure car goes not out of bounds
-    if keys[pygame.K_DOWN] and y < 500 - height - movement_speed:
-        y += movement_speed
-
-    if keys[pygame.K_LEFT] and a > movement_speed: 
-        a -= movement_speed
+    if keys[pygame.K_LEFT] and red_car.x > red_car.movement_speed: 
+        red_car.x -= movement_speed
     # Move character right, however make sure car goes not out of bounds
-    if keys[pygame.K_RIGHT] and a < 500 - movement_speed - width:
-        a += movement_speed
-    # # Move character up, however make sure car goes not out of bounds
-    # if keys[pygame.K_UP] and b > movement_speed:
-    #     b -= movement_speed
+    if keys[pygame.K_RIGHT] and red_car.x < 500 - red_car.movement_speed - red_car.width:
+        red_car.x += red_car.movement_speed
+    # Move character up, however make sure car goes not out of bounds
+    # if keys[pygame.K_UP] and car.y > car.movement_speed:
+    #     car.y -= movement_speed
     # # Move character down, however make sure car goes not out of bounds
-    # if keys[pygame.K_DOWN] and b < 500 - height - movement_speed:
-    #     b += movement_speed
+    # if keys[pygame.K_DOWN] and car.y < 500 - car.height - car.movement_speed:
+    #     car.y += movement_speed
+
+    # Green object 
+    # if keys[pygame.K_LEFT] and a > movement_speed: 
+    #     a -= movement_speed
+    # # Move character right, however make sure car goes not out of bounds
+    # if keys[pygame.K_RIGHT] and a < 500 - movement_speed - width_2:
+    #     a += movement_speed
+    # # Move character up, however make sure car goes not out of bounds
+    if keys[pygame.K_UP] and green_car.y > green_car.movement_speed:
+        green_car.y -= green_car.movement_speed
+    # # Move character down, however make sure car goes not out of bounds
+    if keys[pygame.K_DOWN] and green_car.y < 500 - green_car.height - green_car.movement_speed:
+        green_car.y += green_car.movement_speed
 
     # Call blit method to draw image on screen
     win.blit(picture, (0, 0))
@@ -94,11 +117,13 @@ while running:
     # win.fill((255, 255, 255))
         
     # This takes: window/surface, color, rect 
-    for i in range(8):
-        pygame.draw.rect(win, (255,0,0), (x, y, width, height))  
 
-        pygame.draw.rect(win, (0,255,0), (a, b, width, height))  
-   
+    pygame.draw.rect(win, (255,0,0), (red_car.x, red_car.y, red_car.width, red_car.height))  
+
+    pygame.draw.rect(win, (0,255,0), (green_car.x, green_car.y, green_car.width, green_car.height))  
+
+    pygame.draw.rect(win, (255,0,255), (pink_car.x, pink_car.y, pink_car.width, pink_car.height)) 
+
     # This updates the screen so we can see our rectangle 
     pygame.display.update() 
         
