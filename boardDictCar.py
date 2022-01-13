@@ -1,7 +1,7 @@
 ##
 # CHANGELOG: 13/01/2022
 # First try at setting up the gameboard while representing the cars as a dictionary. 
-# This does not require the Car class from car.py 
+# This does not require the Car class from car.py nor main.py
 # It requires 1 for-loop less when moving in 1 direction. 
 # However number of characters in the code drastically increases. 
 # NOTE: Still needs a writeOutput function
