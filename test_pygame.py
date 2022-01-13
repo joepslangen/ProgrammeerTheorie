@@ -15,16 +15,41 @@ win = pygame.display.set_mode((500, 500))
 #create a caption for the pygame window
 pygame.display.set_caption("Rush Hour visualisation")
 
+# Load background image Rush Hour board
+background_image = pygame.image.load('rush_hour2.png')
+
+# scaling picture so it fits the whole window
+picture = pygame.transform.scale(background_image, (500, 500))
+
 # variables to represent cars
-x = 50
-y = 50
+
+class Car(object):
+    def __init__(self, x,y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.movement_speed = 5
+
+# x and y coordinates on the screen 
+x = 100
+y = 100
+
+a = 300
+b = 300
+
+
+# width and height of the car
 width = 40
 height = 60
-vel = 5
 
-run = True
+# movement speed the car moves over the board
+movement_speed = 5
 
-while run:
+# Game Loop
+running = True
+
+while running:
     # This will delay the game the given amount of milliseconds. In our casee 0.1 seconds will be the delay
     pygame.time.delay(100) 
     # This will loop through a list of any keyboard or mouse events.
@@ -38,24 +63,41 @@ while run:
 
     # We can check if a key is pressed like this
     # Move character left, however make sure car goes not out of bounds
-    if keys[pygame.K_LEFT] and x > vel: 
-        x -= vel
-    # Move character right, however make sure car goes not out of bounds
-    if keys[pygame.K_RIGHT] and x < 500 - vel - width:
-        x += vel
+    # if keys[pygame.K_LEFT] and x > movement_speed: 
+    #     x -= movement_speed
+    # # Move character right, however make sure car goes not out of bounds
+    # if keys[pygame.K_RIGHT] and x < 500 - movement_speed - width:
+    #     x += movement_speed
     # Move character up, however make sure car goes not out of bounds
-    if keys[pygame.K_UP] and y > vel:
-        y -= vel
+    if keys[pygame.K_UP] and y > movement_speed:
+        y -= movement_speed
     # Move character down, however make sure car goes not out of bounds
-    if keys[pygame.K_DOWN] and y < 500 - height - vel:
-        y += vel
+    if keys[pygame.K_DOWN] and y < 500 - height - movement_speed:
+        y += movement_speed
 
-    # Fills the screen with black
-    win.fill((0, 0, 0))
+    if keys[pygame.K_LEFT] and a > movement_speed: 
+        a -= movement_speed
+    # Move character right, however make sure car goes not out of bounds
+    if keys[pygame.K_RIGHT] and a < 500 - movement_speed - width:
+        a += movement_speed
+    # # Move character up, however make sure car goes not out of bounds
+    # if keys[pygame.K_UP] and b > movement_speed:
+    #     b -= movement_speed
+    # # Move character down, however make sure car goes not out of bounds
+    # if keys[pygame.K_DOWN] and b < 500 - height - movement_speed:
+    #     b += movement_speed
+
+    # Call blit method to draw image on screen
+    win.blit(picture, (0, 0))
+
+    # Fills the screen with white
+    # win.fill((255, 255, 255))
         
     # This takes: window/surface, color, rect 
     for i in range(8):
         pygame.draw.rect(win, (255,0,0), (x, y, width, height))  
+
+        pygame.draw.rect(win, (0,255,0), (a, b, width, height))  
    
     # This updates the screen so we can see our rectangle 
     pygame.display.update() 
@@ -63,9 +105,3 @@ while run:
 # If we exit the loop this will execute and close our game
 pygame.quit()  
     
-def draw_Grid():
-    # Set the size of the grid block 6x6
-    grid_size = 6 
-    for x in range(0, WIDTH, grid_size):
-        rect = pygame.rect(x, y, grid_size, grid_size)
-        pygame.draw.rect(win, WHITE, rect, 1)
