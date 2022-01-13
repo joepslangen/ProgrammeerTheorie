@@ -9,11 +9,9 @@ from car import Car
 Rushhour_df = pd.read_csv("gameboards/Rushhour6x6_1.csv")
 
 game = Board(Rushhour_df)
-game.load_cars(Rushhour_df), 
+game.load_cars(Rushhour_df)
 game.place_car()
 game.printBoard()
-game.moveCheck()
-game.moveCarLeft("A")
-game.place_car()
+game.moveCarLeft("C")
 game.printBoard()
-game.moveCheck()
+game.writeOutput()

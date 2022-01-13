@@ -82,51 +82,49 @@ class Board():
                     #replace zeros in DataFrame with the carname in vertical fashion
                     self.game_board.loc[car.row + index, car.column] = car._name.lower()
 
-    #start of a function able to move cars
-    def moveCheck(self):
-        #cycle through the cars in the cars lists
-        for car in self.cars: 
-            #again check for orientation if horizontal
-            if car._orientation == "H": 
-                #check if the spot on the right of the car is free
-                if self.game_board.loc[car.row, car.column + car._length] == 0:
-                    #if so notify that movement to the right is possible
-                    print("The car:", car._name, "can move to the right")
-                if self.game_board.loc[car.row, car.column - 1] == 0: 
-                    print("The car:", car._name, "can move to the left")
-            if car._orientation == "V":
-                if self.game_board.loc[car.row - 1, car.column] == 0:
-                    print("The car:", car._name, "can move up")
-                if self.game_board.loc[car.row + car._length, car.column] == 0:
-                    print("The car:", car._name, "can move down")
-    
     #to move car left, change its column position
     def moveCarLeft(self, carname):
         for car in self.cars: 
-            if car._name == carname: 
-                car.column -= 1
+            if car._orientation == "H": 
+                if car._name == carname:
+                    if self.game_board.loc[car.row, car.column - 1] == 0:
+                        car.column -= 1
+                        self.place_car()
+                        print("The car:", carname, "has moved to the left")
 
     #to move car right, change its column position
     def moveCarRight (self, carname):
         for car in self.cars: 
-            if car._name == carname: 
-                car.column += 1
-                if car._name == 'X':
-                    if self.game_board.loc[car.row, car.column + car._length] == 2:
-                        print("You did it!")
+            if car._orientation == "H": 
+                if car._name == carname: 
+                    if self.game_board.loc[car.row, car.column + car._length] == 0:
+                        car.column += 1
+                        self.place_car()
+                        print("The car:", carname, "has moved to the right")
+                    if car._name == 'X':
+                        if self.game_board.loc[car.row, car.column + car._length] == 2:
+                            print("You did it!")
     
     #to move car up, change its row position
     def moveCarUp (self, carname):
         for car in self.cars: 
-            if car._name == carname: 
-                car.row -= 1
+            if car._orientation == "V":
+                if car._name == carname: 
+                    if self.game_board.loc[car.row - 1, car.column] == 0:
+                        car.row -= 1
+                        self.place_car()
+                        print("The car:", car._name, "has moved up")
     
     #to move car down, change its row position
     def moveCarDown(self, carname):
         for car in self.cars: 
-            if car._name == carname: 
-                car.row += 1
-
+            if car._orientation == "V": 
+                if car._name == carname: 
+                    if self.game_board.loc[car.row + car._length, car.column] == 0:
+                        car.row += 1
+                        self.place()
+                        print("The car:", car._name, "has moved down")
+                
     #function to print game board
     def printBoard(self):
         print(self.game_board)
