@@ -93,6 +93,9 @@ class Board():
                 self.place_car()
                 #print movement confirmation
                 print("The car:", carname, "has moved to the right")
+            if carname == "X":
+                if self.game_board.loc[self.cars[carname]["car_row"], self.cars[carname]["car_column"] + self.cars[carname]["car_length"]] == 2: 
+                    print("You did it!")
 
     #to move car right, change its column position
     def moveCarLeft(self, carname):
@@ -142,8 +145,6 @@ class Board():
 
 if __name__ == "__main__":
 
-    import pandas as pd
-
     #read rushhour6x6_1.csv
     Rushhour_df = pd.read_csv("gameboards/Rushhour6x6_1.csv")
 
@@ -151,6 +152,6 @@ if __name__ == "__main__":
     game.load_cars(Rushhour_df)
     game.place_car()
     game.printBoard()
-    game.moveCarLeft("A")
+    game.moveCarLeft("X")
     game.printBoard()    
     
