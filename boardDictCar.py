@@ -226,16 +226,7 @@ class Board():
         output_series = pd.Series(data=output)
         output_series.to_csv('output/Rushhour_output.csv', header=False)
 
-
-    def randomGameLoop(self): 
-        while self.running == True: 
-            #print(random.choice(list(self.cars)))
-            self.moveCarRight(random.choice(list(self.cars)))
-            self.moveCarLeft(random.choice(list(self.cars)))
-            self.moveCarUp(random.choice(list(self.cars)))
-            self.moveCarDown(random.choice(list(self.cars)))
-
-    
+  
 
 if __name__ == "__main__":
 
