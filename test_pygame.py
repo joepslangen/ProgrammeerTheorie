@@ -110,6 +110,54 @@ while running:
     if keys[pygame.K_DOWN] and green_car.y < 500 - green_car.height - green_car.movement_speed:
         green_car.y += green_car.movement_speed
 
+    # if mouse is pressed
+    if pygame.mouse.get_pressed()[0]:
+        # When mouse is pressed on the red car
+        if (pygame.mouse.get_pos()[0] > red_car.x) & (pygame.mouse.get_pos()[0] < red_car.x + red_car.width) & (pygame.mouse.get_pos()[1] > red_car.y) & (pygame.mouse.get_pos()[1] < red_car.y + red_car.height):
+            # When mouse is pressed on the right side of the car
+            if pygame.mouse.get_pos()[0] > red_car.x + (red_car.width / 2):
+                print(((pink_car.y + pink_car.height) > red_car.y > pink_car.y))
+                # if the pink car blocks the red car, don't move
+                if (0 < (pink_car.x - red_car.x - red_car.width) < 60) and ((pink_car.y + pink_car.height) >= red_car.y >= pink_car.y):
+                    continue
+                # if the green car does blocks the red car, don't move
+                elif ((green_car.x - red_car.x - red_car.width) < 60) and ((green_car.y + green_car.height) >= red_car.y >= green_car.y):
+                    continue
+                # if not blocked, move to the right
+                else:
+                    red_car.x += 70
+            # When mouse is pressed on left side of the car
+            else:
+                # if the pink car blocks the red car, don't move
+                if (0 < (red_car.x - (pink_car.x + pink_car.width)) < 60) and ((pink_car.y + pink_car.height) >= red_car.y >= pink_car.y):
+                    continue
+                # if the green car does blocks the red car, don't move
+                elif (0 < (red_car.x - (green_car.x + green_car.width)) < 60) and ((green_car.y + green_car.height) >= red_car.y >= green_car.y):
+                    continue
+                # if not blocked, move to the left
+                else:
+                    red_car.x -= 70
+    # if mouse is pressed
+    if pygame.mouse.get_pressed()[0]:
+        # When mouse is pressed on the green car
+        if (pygame.mouse.get_pos()[0] > green_car.x) & (pygame.mouse.get_pos()[0] < green_car.x + green_car.width) & (pygame.mouse.get_pos()[1] > green_car.y) & (pygame.mouse.get_pos()[1] < green_car.y + green_car.height):
+            # When mouse is pressed on the upper half of the car, move up
+            if pygame.mouse.get_pos()[1] > green_car.y + (green_car.height / 2):
+                green_car.y += 63
+            # When mouse is pressed on the lower half of the car, move down
+            else: 
+                green_car.y -= 63
+    # if mouse is pressed
+    if pygame.mouse.get_pressed()[0]:
+        # When mouse is pressed on the pink car
+        if (pygame.mouse.get_pos()[0] > pink_car.x) & (pygame.mouse.get_pos()[0] < pink_car.x + pink_car.width) & (pygame.mouse.get_pos()[1] > pink_car.y) & (pygame.mouse.get_pos()[1] < pink_car.y + pink_car.height):
+             # When mouse is pressed on the upper half of the car, move up
+            if pygame.mouse.get_pos()[1] > pink_car.y + (pink_car.height / 2):
+                pink_car.y += 60
+             # When mouse is pressed on the lower half of the car, move down
+            else: 
+                pink_car.y -= 60
+
     # Call blit method to draw image on screen
     win.blit(picture, (0, 0))
 
