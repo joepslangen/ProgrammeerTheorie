@@ -200,15 +200,15 @@ class Board():
         for row in gameboard: 
             for cell in row: 
                 if cell == 1 or cell == 0: 
-                    cprint(int(cell), 'grey', end = " ")
+                    cprint(int(cell), 'grey', end = "  ")
                 elif cell == 2: 
-                    cprint(int(cell), 'red', end=' ')
+                    cprint(int(cell), 'red', end = '  ')
                 elif cell == "X": 
-                    cprint(cell, 'red', end = ' ')
+                    cprint(cell, 'red', end = '  ')
                 else: 
                     if cell not in self.colourdict: 
                         self.colourdict[cell] = random.choice(self.colour_list)
-                    cprint(cell, self.colourdict[cell], end = " ")
+                    cprint(cell, self.colourdict[cell], end = " " * int(2/len(cell)))
             print(' ')
     
     """
