@@ -1,6 +1,6 @@
 import pygame
 
-# initialize 
+# initialize  
 pygame.init()
 
 #width and height of the window
