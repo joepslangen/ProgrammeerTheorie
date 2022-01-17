@@ -11,6 +11,7 @@ import sys
 from termcolor import colored, cprint
 import random
 from car import Car
+import timeit
 
 """
 Start class for the game board. 
@@ -21,6 +22,11 @@ board printing and output functions.
 class Board():
 
     def __init__(self, dimensions):
+
+        self.running = True
+        self.start = timeit.default_timer()
+        self.stop = 0
+        self.movecounter = 0
 
         """
         Colour list and dictionary. Required for colour printing cars. 
@@ -52,7 +58,7 @@ class Board():
         which the red car should reach. 
         """
         col_out = self.dimensions + 1
-        row_out = self.dimensions // 2
+        row_out = (self.dimensions + 1) // 2
         ones_matrix[row_out][col_out] = 2
         
         """"
@@ -125,6 +131,8 @@ class Board():
                         car.column -= 1
                         self.place_car()
                         print("The car:", carname, "has moved to the left")
+                        self.printBoard()
+                        self.movecounter += 1
 
     """
     Define function to move cars to the right.
@@ -142,6 +150,8 @@ class Board():
                         car.column += 1
                         self.place_car()
                         print("The car:", carname, "has moved to the right")
+                        self.printBoard()
+                        self.movecounter += 1
                     """
                     If the car willing to move is X (Red car), check if the cell on the right
                     equals 2,, meaning the exit has been reached. 
@@ -149,6 +159,7 @@ class Board():
                     if car._name == 'X':
                         if self.gameboard.loc[car.row, car.column + car._length] == 2:
                             print("You did it!")
+                            self.running = False
     
     """
     Define function to move cars up.
@@ -166,6 +177,8 @@ class Board():
                         car.row -= 1
                         self.place_car()
                         print("The car:", car._name, "has moved up")
+                        self.printBoard()
+                        self.movecounter += 1
 
     """
     Define function to move cars down.
@@ -181,8 +194,10 @@ class Board():
                 if car._name == carname: 
                     if self.gameboard.loc[car.row + car._length, car.column] == 0:
                         car.row += 1
-                        self.place()
+                        self.place_car()
                         print("The car:", car._name, "has moved down")
+                        self.printBoard()
+                        self.movecounter += 1
                 
     """
     Define function to print the current game board. 
@@ -233,3 +248,13 @@ class Board():
         
         output_series = pd.Series(data=output)
         output_series.to_csv('output/Rushhour_output.csv', header=False)
+    
+    def randomGameLoop(self):
+        while self.running == True: 
+            self.moveCarLeft(random.choice(random.choice(self.cars)._name))
+            self.moveCarRight(random.choice(random.choice(self.cars)._name))
+            self.moveCarUp(random.choice(random.choice(self.cars)._name))
+            self.moveCarDown(random.choice(random.choice(self.cars)._name))
+        self.stop = timeit.default_timer()
+        print("Time", self.stop - self.start, "seconds")
+        print("Number of moves", self.movecounter)
