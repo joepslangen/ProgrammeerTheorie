@@ -6,9 +6,11 @@ from board import Board
 from car import Car
 
 #read rushhour6x6_1.csv
-Rushhour_df = pd.read_csv("gameboards/Rushhour6x6_1.csv")
+dimensions = 6
+puzzle_number = 1
+Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
-game = Board(Rushhour_df)
+game = Board(dimensions)
 game.load_cars(Rushhour_df)
 game.place_car()
 game.printBoard()

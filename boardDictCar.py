@@ -19,7 +19,7 @@ board printing and output functions.
 """
 class Board():
 
-    def __init__(self, Rushhour_df):
+    def __init__(self, dimensions ):
 
         """
         Colour list and dictionary. Required for colour printing cars. 
@@ -35,7 +35,7 @@ class Board():
         self.cars = {}
         self._rows_init = {}
         self._cols_init = {}
-        self.dimensions = max(Rushhour_df["col"])
+        self.dimensions = dimensions
 
         """
         Creation of matrices containing ones and zeros in the correct dimensions. 
@@ -111,7 +111,7 @@ class Board():
         Check if the cell right of the car is empty. If so, move the car
         one column to the right. 
         """
-        if carname in self.cars: 
+        if carname in self.cars and self.cars[carname]["car_orientation"] == "H": 
             if self.gameboard.loc[self.cars[carname]["car_row"], self.cars[carname]["car_column"] + self.cars[carname]["car_length"]] == 0: 
                 self.cars[carname]["car_column"] += 1
                 self.place_car()
@@ -121,7 +121,7 @@ class Board():
             If the car willing to move is X (Red car), check if the cell on the right
             equals 2,, meaning the exit has been reached. 
             """
-            if carname == "X":
+            if carname == "X" and self.cars[carname]["car_orientation"] == "H":
                 if self.gameboard.loc[self.cars[carname]["car_row"], self.cars[carname]["car_column"] + self.cars[carname]["car_length"]] == 2: 
                     print("You did it!")
 
@@ -134,7 +134,7 @@ class Board():
         Check if the cell left of the car is empty. If so, move the car
         one column to the left. 
         """
-        if carname in self.cars: 
+        if carname in self.cars and self.cars[carname]["car_orientation"] == "H": 
             if self.gameboard.loc[self.cars[carname]["car_row"], self.cars[carname]["car_column"] - 1] == 0: 
                 self.cars[carname]["car_column"] -= 1
                 self.place_car()
@@ -150,7 +150,7 @@ class Board():
         Check if the cell above the car is empty. If so, move the car
         one row up. 
         """
-        if carname in self.cars: 
+        if carname in self.cars and self.cars[carname]["car_orientation"] == "V": 
             if self.gameboard.loc[self.cars[carname]["car_row"] - 1, self.cars[carname]["car_column"]] == 0: 
                 self.cars[carname]["car_row"] -= 1
                 self.place_car()
@@ -166,7 +166,7 @@ class Board():
         Check if the cell below the car is empty. If so, move the car
         one row down.
         """
-        if carname in self.cars: 
+        if carname in self.cars and self.cars[carname]["car_orientation"] == "V": 
             if self.gameboard.loc[self.cars[carname]["car_row"] + self.cars[carname]["car_length"], self.cars[carname]["car_column"]] == 0: 
                 self.cars[carname]["car_row"] += 1
                 self.place_car()
@@ -226,12 +226,24 @@ class Board():
 
 if __name__ == "__main__":
 
-    Rushhour_df = pd.read_csv("gameboards/Rushhour9x9_4.csv")
+    dimensions = 6
+    puzzle_number = 1
+    Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
-    game = Board(Rushhour_df)
+    game = Board(dimensions)
     game.load_cars(Rushhour_df)
     game.place_car()
     game.printBoard()
-    game.moveCarLeft("C")
-    game.moveCarLeft("A")
+    game.moveCarRight("X")
+    game.moveCarRight("X")
+    game.moveCarRight("X")
+    game.moveCarRight("X")
+
+
+
+
+
+
+
+
     

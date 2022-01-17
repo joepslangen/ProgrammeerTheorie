@@ -20,7 +20,7 @@ board printing and output functions.
 """
 class Board():
 
-    def __init__(self, Rushhour_df):
+    def __init__(self, dimensions):
 
         """
         Colour list and dictionary. Required for colour printing cars. 
@@ -36,7 +36,7 @@ class Board():
         self.cars = []
         self._rows_init = {}
         self._cols_init = {}
-        self.dimensions = max(Rushhour_df["col"])
+        self.dimensions = dimensions
 
         """
         Creation of matrices containing ones and zeros in the correct dimensions. 
