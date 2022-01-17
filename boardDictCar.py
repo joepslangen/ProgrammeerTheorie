@@ -21,6 +21,8 @@ class Board():
 
     def __init__(self, dimensions ):
 
+        self.running = True
+
         """
         Colour list and dictionary. Required for colour printing cars. 
         """
@@ -123,6 +125,7 @@ class Board():
             """
             if carname == "X" and self.cars[carname]["car_orientation"] == "H":
                 if self.gameboard.loc[self.cars[carname]["car_row"], self.cars[carname]["car_column"] + self.cars[carname]["car_length"]] == 2: 
+                    self.running = False
                     print("You did it!")
 
     """
@@ -221,7 +224,15 @@ class Board():
             output[car] = (self.cars[car]["car_row"] - self._rows_init[car]) + (self.cars[car]["car_column"] - self._cols_init[car])
 
         output_series = pd.Series(data=output)
-        output_series.to_csv('output/Rushhour_output.csv', header=False)
+
+    def randomGameLoop(self): 
+        while self.running == True: 
+            #print(random.choice(list(self.cars)))
+            self.moveCarRight(random.choice(list(self.cars)))
+            self.moveCarLeft(random.choice(list(self.cars)))
+            self.moveCarUp(random.choice(list(self.cars)))
+            self.moveCarDown(random.choice(list(self.cars)))
+
     
 
 if __name__ == "__main__":
@@ -234,10 +245,7 @@ if __name__ == "__main__":
     game.load_cars(Rushhour_df)
     game.place_car()
     game.printBoard()
-    game.moveCarRight("X")
-    game.moveCarRight("X")
-    game.moveCarRight("X")
-    game.moveCarRight("X")
+    game.randomGameLoop()
 
 
 
