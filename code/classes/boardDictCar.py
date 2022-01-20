@@ -232,7 +232,7 @@ class Board():
             output[car] = (self.cars[car]["car_row"] - self._rows_init[car]) + (self.cars[car]["car_column"] - self._cols_init[car])
 
         output_series = pd.Series(data=output)
-        output_series.to_csv('output/Rushhour_output.csv', header=False)
+        output_series.to_csv('output/output.csv', header=False)
     
     def randomGameLoop(self):
         while self.running == True: 
@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     dimensions = 6
     puzzle_number = 2
-    Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
+    Rushhour_df = pd.read_csv(f"ProgrammeerTheorie/gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
     game = Board(dimensions)
     game.load_cars(Rushhour_df)
