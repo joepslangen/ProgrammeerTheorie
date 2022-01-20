@@ -10,7 +10,7 @@ import numpy as np
 import sys
 from termcolor import colored, cprint
 import random
-from car import Car
+from code.classes.car import Car
 import timeit
 
 """

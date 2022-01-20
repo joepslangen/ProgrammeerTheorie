@@ -1,0 +1,16 @@
+# Hide Mac files
+.DS_Store
+
+
+# Hide compiled code
+__pycache__/
+
+# Hide recycle bin
+recyclebin/
+
+# Hide output
+output/
+
+# Hide more compiled code
+code/__pycache__/
+code/classes/__pycache__/

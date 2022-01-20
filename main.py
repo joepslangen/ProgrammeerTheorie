@@ -2,8 +2,7 @@
 # main file for checking the code
 
 import pandas as pd
-from board import Board
-from car import Car
+from code.classes.board import Board
 
 #read rushhour6x6_1.csv
 dimensions = 6
