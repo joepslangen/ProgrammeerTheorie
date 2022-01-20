@@ -10,7 +10,7 @@ __pycache__/
 recyclebin/
 
 # Hide output
-/output/
+output/
 
 # Hide more compiled code
 code/__pycache__/

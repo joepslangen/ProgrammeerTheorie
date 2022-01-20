@@ -247,7 +247,7 @@ class Board():
             output[car._name] = (car.row - self._rows_init[car._name]) + (car.column - self._cols_init[car._name])
         
         output_series = pd.Series(data=output)
-        output_series.to_csv('output/Rushhour_output.csv', header=False)
+        output_series.to_csv('output/output.csv', header=False)
     
     def randomGameLoop(self):
         while self.running == True: 
