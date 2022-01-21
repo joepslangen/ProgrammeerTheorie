@@ -3,7 +3,7 @@
 * [General Info](#general-info)
 * [Requirements](#requirements)
 * [Usage](#usage)
-* [Contributors](#contributors)
+* [Contributors](#contributors) 
 
 
 
