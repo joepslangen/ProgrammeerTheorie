@@ -315,7 +315,8 @@ class Board():
         Creation of the BFS queue moves and required variables containing the path, 
         the next possible states and the start configuration of the board. 
         """
-        moves = deque("")
+        moves = deque()
+        moves.appendleft("")
         path = ""
         states = {""}
         startposion = self.noprintBoard()
