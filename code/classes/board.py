@@ -10,8 +10,11 @@ import numpy as np
 import sys
 from termcolor import colored, cprint
 import random
-from code.classes.car import Car
+from car import Car
 import timeit
+import queue
+import copy
+import os
 
 """
 Start class for the game board. 
@@ -22,6 +25,8 @@ board printing and output functions.
 class Board():
 
     def __init__(self, dimensions):
+
+        self.history = []
 
         self.running = True
         self.start = timeit.default_timer()
@@ -43,6 +48,8 @@ class Board():
         self._rows_init = {}
         self._cols_init = {}
         self.dimensions = dimensions
+        self._cars_init = []
+        # self._cars_init_dict = {}
 
         """
         Creation of matrices containing ones and zeros in the correct dimensions. 
@@ -95,19 +102,23 @@ class Board():
             self.cars list. 
             """
             car = Car(car_name, car_orientation, car_column, car_row, car_length)
+            car_init = Car(car_name, car_orientation, car_column, car_row, car_length)
             self.cars.append(car)
+            # self._cars_init.append(car)
+        
+            self._cars_init.append(car_init)
 
     """
     Define function to place cars from the self.cars list onto the gameboard. 
     """
-    def place_car(self):
+    def place_car(self, cars):
         """
         First clear the previous game board. Cycle through the cars in self.cars 
         list and check their current rows, collumns, orientation and lenght. 
         Replace the zeroes in the empty gameboard with the car name. 
         """
         self.gameboard = pd.DataFrame(self.empty_board).astype(int)
-        for car in self.cars: 
+        for car in cars: 
             if car._orientation == "H":
                 for index in range(0, car._length):
                     self.gameboard.loc[car.row, car.column + index] = car._name
@@ -129,7 +140,7 @@ class Board():
                 if car._name == carname:
                     if self.gameboard.loc[car.row, car.column - 1] == 0:
                         car.column -= 1
-                        self.place_car()
+                        self.place_car(self.cars)
                         print("The car:", carname, "has moved to the left")
                         self.printBoard()
                         self.movecounter += 1
@@ -148,7 +159,7 @@ class Board():
                 if car._name == carname: 
                     if self.gameboard.loc[car.row, car.column + car._length] == 0:
                         car.column += 1
-                        self.place_car()
+                        self.place_car(self.cars)
                         print("The car:", carname, "has moved to the right")
                         self.printBoard()
                         self.movecounter += 1
@@ -175,9 +186,9 @@ class Board():
                 if car._name == carname: 
                     if self.gameboard.loc[car.row - 1, car.column] == 0:
                         car.row -= 1
-                        self.place_car()
-                        print("The car:", car._name, "has moved up")
-                        self.printBoard()
+                        self.place_car(self.cars)
+                        # print("The car:", car._name, "has moved up")
+                        # self.printBoard()
                         self.movecounter += 1
 
     """
@@ -194,10 +205,11 @@ class Board():
                 if car._name == carname: 
                     if self.gameboard.loc[car.row + car._length, car.column] == 0:
                         car.row += 1
-                        self.place_car()
-                        print("The car:", car._name, "has moved down")
-                        self.printBoard()
+                        self.place_car(self.cars)
+                        # print("The car:", car._name, "has moved down")
+                        # self.printBoard()
                         self.movecounter += 1
+
                 
     """
     Define function to print the current game board. 
@@ -211,20 +223,55 @@ class Board():
         in red. Otherwise assign random colour to the car, place it in 
         self.courdict and print. 
         """
+        screenshot = ""
         gameboard = self.gameboard.values.tolist()
         for row in gameboard: 
             for cell in row: 
                 if cell == 1 or cell == 0: 
                     cprint(int(cell), 'grey', end = "  ")
+                    screenshot += str(cell)
                 elif cell == 2: 
                     cprint(int(cell), 'red', end = '  ')
+                    screenshot += str(cell)
                 elif cell == "X": 
                     cprint(cell, 'red', end = '  ')
+                    screenshot += str(cell)
                 else: 
                     if cell not in self.colourdict: 
                         self.colourdict[cell] = random.choice(self.colour_list)
                     cprint(cell, self.colourdict[cell], end = " " * int(2/len(cell)))
+                    screenshot += str(cell)
             print(' ')
+        return screenshot
+
+
+    """
+    Define function to print the current game board. 
+    """
+    def noprintBoard(self):
+        """
+        Convert the current self.gameboard to a list of lists into 
+        a temp. variable called gameboard. Cycle through the rows and cells
+        in the current gameboard. If the cell represents a barrier or empty 
+        spot, print in gray. If it represents the exit or "X" (Red car), print 
+        in red. Otherwise assign random colour to the car, place it in 
+        self.courdict and print. 
+        """
+        screenshot = ""
+        gameboard = self.gameboard.values.tolist()
+        for row in gameboard: 
+            for cell in row: 
+                if cell == 1 or cell == 0: 
+                    screenshot += str(cell)
+                elif cell == 2: 
+                    screenshot += str(cell)
+                elif cell == "X": 
+                    screenshot += str(cell)
+                else: 
+                    if cell not in self.colourdict: 
+                        self.colourdict[cell] = random.choice(self.colour_list)
+                    screenshot += str(cell)
+        return screenshot
     
     """
     Define function to write the desired output file. 
@@ -247,7 +294,7 @@ class Board():
             output[car._name] = (car.row - self._rows_init[car._name]) + (car.column - self._cols_init[car._name])
         
         output_series = pd.Series(data=output)
-        output_series.to_csv('output/output.csv', header=False)
+        output_series.to_csv('output/Rushhour_output.csv', header=False)
     
     def randomGameLoop(self):
         while self.running == True: 
@@ -258,3 +305,92 @@ class Board():
         self.stop = timeit.default_timer()
         print("Time", self.stop - self.start, "seconds")
         print("Number of moves", self.movecounter)
+
+
+    # Disable
+    def blockPrint():
+        sys.stdout = open(os.devnull, 'w')
+
+    # Restore
+    def enablePrint():
+        sys.stdout = sys.__stdout__
+
+
+    """
+    Define function for breadth first algorithm. 
+    """
+    def breadthFirst(self):
+        # create queue
+        moves = queue.Queue()
+        moves.put("")
+        path = ""
+        states = {""}
+        startposion = self.noprintBoard()
+
+        while self.running == True:
+            # place cars back in intitial configuration
+            self.place_car(self._cars_init)
+            self.cars = copy.deepcopy(self._cars_init)
+
+            # get first item in queue
+            path = moves.get()
+            print(len(path) / 2)
+
+            # set cars to new configuration
+            for i in range(0, len(path), 2):
+                if path[i + 1] == 'L':
+                    self.moveCarLeft(path[i])
+                elif path[i + 1] == 'R':
+                    self.moveCarRight(path[i])
+                elif path[i + 1] == 'U':
+                    self.moveCarUp(path[i])
+                elif path[i + 1] == 'D':
+                    self.moveCarDown(path[i])
+                    
+            if self.noprintBoard() in self.history and self.noprintBoard() != startposion: 
+                print("duplicate")
+                continue
+            else: 
+                self.history.append(self.noprintBoard())
+
+
+            # find out which cars can move, add cars + move to list
+            moving_cars = []
+            for car in self.cars:
+                if car._orientation == "V":  
+                    if self.gameboard.loc[car.row + car._length, car.column] == 0:
+                        moving_cars.append(car._name)
+                        moving_cars.append('D')
+                    if self.gameboard.loc[car.row - 1, car.column] == 0:
+                        moving_cars.append(car._name)
+                        moving_cars.append('U')
+                if car._orientation == "H":  
+                    if self.gameboard.loc[car.row, car.column + car._length] == 0:
+                        moving_cars.append(car._name)
+                        moving_cars.append('R')
+                    if self.gameboard.loc[car.row, car.column - 1] == 0:
+                        moving_cars.append(car._name)
+                        moving_cars.append('L')
+                    if car._name == "X" and self.gameboard.loc[car.row, car.column + car._length] == 2:
+                        self.stop = timeit.default_timer()
+                        print("Time", self.stop - self.start, "seconds")
+                        print(len(path) / 2)
+                        self.running = False
+
+            # put every moving car at the end of a path and in a queue
+            for i in range(0, len(moving_cars), 2):
+                move = moving_cars[i] + moving_cars[i + 1]
+                put = path + move
+                states.add(put)
+                moves.put(put)
+                # check if car X is at exit
+                if move == "XR":
+                    self.moveCarRight('X')
+                    if self.gameboard.loc[car.row, car.column + car._length] == 2:
+                        print("Path:", path + move)
+                        self.stop = timeit.default_timer()
+                        print("Time", self.stop - self.start, "seconds")
+                        self.running = False
+                        print("How many steps: ", len(path + move) / 2)
+                    else:
+                        self.moveCarLeft('X')
