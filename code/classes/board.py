@@ -372,17 +372,23 @@ class Board():
             # put every moving car at the end of a path and in a queue
             prio1 = deque("")
             prio2 = deque("")
+            prio3 = deque("")
             for i in range(0, len(moving_cars), 2):
                 if moving_cars[i] == "X" and moving_cars[i + 1] == "R": 
                     move = moving_cars[i] + moving_cars[i + 1]
                     put = path + move
                     states.add(put)
                     prio1.appendleft(put)
-                elif moving_cars[i + 1] == "L": 
+                elif moving_cars[i + 1] == "L" and moving_cars[i] != "X": 
                     move = moving_cars[i] + moving_cars[i + 1]
                     put = path + move
                     states.add(put)
                     prio2.appendleft(put)
+                elif moving_cars[i + 1] == "U" or moving_cars[i + 1] == "D": 
+                    move = moving_cars[i] + moving_cars[i + 1]
+                    put = path + move
+                    states.add(put)
+                    prio3.appendleft(put)
                 else:
                     move = moving_cars[i] + moving_cars[i + 1]
                     put = path + move
@@ -399,4 +405,4 @@ class Board():
                         print("How many steps: ", len(path + move) / 2)
                     else:
                         self.moveCarLeft('X')
-            moves = prio1 + prio2 + moves
+            moves = prio1 + prio2 + prio3 + moves
