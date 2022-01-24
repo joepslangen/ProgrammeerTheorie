@@ -11,7 +11,7 @@ Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle
 
 game = Board(dimensions)
 game.load_cars(Rushhour_df)
-game.place_car()
+game.place_car(game.cars)
 game.printBoard()
 game.breadthFirst()
 game.printBoard()
