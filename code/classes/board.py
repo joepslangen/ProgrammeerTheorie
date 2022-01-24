@@ -12,7 +12,6 @@ from termcolor import cprint
 import random
 from code.classes.car import Car
 import timeit
-import queue
 import copy
 import os
 from collections import deque
@@ -312,23 +311,35 @@ class Board():
     Define function for breadth first algorithm. 
     """
     def breadthFirst(self):
-        # create queue
-        moves = deque()
-        moves.append("")
+        """
+        Creation of the BFS queue moves and required variables containing the path, 
+        the next possible states and the start configuration of the board. 
+        """
+        moves = deque("")
         path = ""
         states = {""}
         startposion = self.noprintBoard()
 
         while self.running == True:
-            # place cars back in intitial configuration
+            """
+            Set the cars to the original start configuration and create
+            a deep copy of this state. 
+            """
             self.place_car(self._cars_init)
             self.cars = copy.deepcopy(self._cars_init)
 
-            # get first item in queue
+            """
+            Take the first state from the queue and print
+            path length. 
+            """
             path = moves.popleft()
             print(len(path) / 2)
 
-            # set cars to new configuration
+            """
+            Read through the chosen path. 
+            Determine car name and which direction to move in. 
+            Move car in correct directions to update game board. 
+            """
             for i in range(0, len(path), 2):
                 if path[i + 1] == 'L':
                     self.moveCarLeft(path[i])
@@ -338,7 +349,12 @@ class Board():
                     self.moveCarUp(path[i])
                 elif path[i + 1] == 'D':
                     self.moveCarDown(path[i])
-                    
+            
+            """
+            Check if the currently loaded gameboard has previously been loaded 
+            ,excluding the start configuration. Continue and add to history or skip
+            this board.
+            """
             if self.noprintBoard() in self.history and self.noprintBoard() != startposion: 
                 print("duplicate")
                 continue
@@ -346,7 +362,12 @@ class Board():
                 self.history.append(self.noprintBoard())
 
 
-            # find out which cars can move, add cars + move to list
+            """
+            Move through the cars in self.cars. 
+            Check if they can move left, right, up or down
+            and add their name + direction to moving_cars list. 
+            If the Red car (X) can move and end the game, just end the game. 
+            """
             moving_cars = []
             for car in self.cars:
                 if car._orientation == "V":  
@@ -369,7 +390,20 @@ class Board():
                         print(len(path) / 2)
                         self.running = False
 
-            # put every moving car at the end of a path and in a queue
+            """
+            Simple introduction of heuristics. Determine if the Red car
+            could move to the right. If so, this move is brings us 
+            closer to the endgame and thus this configuration will 
+            have priority over the others and will be placed in the prio1 queue. 
+            Moving cars to the left creates space on the right of the Red car, 
+            improving future movement posibilities. So place these configs in prio2. 
+            Moving cars up and down also creates space for the Red car, so prio3. Finally
+            moving cars other than the Red one to the right most likely does not improve the 
+            configuration, so no priority. 
+
+            The priority queues will ensure that promising configurations will be explored first, 
+            which greatly reduces search time. 
+            """
             prio1 = deque("")
             prio2 = deque("")
             prio3 = deque("")
@@ -394,7 +428,10 @@ class Board():
                     put = path + move
                     states.add(put)
                     moves.append(put)
-                # check if car X is at exit
+                
+                """
+                Again a end-game check function. 
+                """
                 if move == "XR":
                     self.moveCarRight('X')
                     if self.gameboard.loc[car.row, car.column + car._length] == 2:
@@ -405,4 +442,8 @@ class Board():
                         print("How many steps: ", len(path + move) / 2)
                     else:
                         self.moveCarLeft('X')
+            """
+            Combine the priority queues with the normal queue 
+            to feed to the next cycle of the bfs algorithm. 
+            """
             moves = prio1 + prio2 + prio3 + moves
