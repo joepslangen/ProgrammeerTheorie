@@ -8,13 +8,14 @@ car for using Car() class
 import pandas as pd
 import numpy as np
 import sys
-from termcolor import colored, cprint
+from termcolor import cprint
 import random
 from code.classes.car import Car
 import timeit
 import queue
 import copy
 import os
+from collections import deque
 
 """
 Start class for the game board. 
@@ -246,17 +247,10 @@ class Board():
 
 
     """
-    Define function to print the current game board. 
+    Define function cycle through the board in similar way as self.printBoard
+    only without printing. 
     """
     def noprintBoard(self):
-        """
-        Convert the current self.gameboard to a list of lists into 
-        a temp. variable called gameboard. Cycle through the rows and cells
-        in the current gameboard. If the cell represents a barrier or empty 
-        spot, print in gray. If it represents the exit or "X" (Red car), print 
-        in red. Otherwise assign random colour to the car, place it in 
-        self.courdict and print. 
-        """
         screenshot = ""
         gameboard = self.gameboard.values.tolist()
         for row in gameboard: 
@@ -296,8 +290,15 @@ class Board():
         output_series = pd.Series(data=output)
         output_series.to_csv('output/Rushhour_output.csv', header=False)
     
+    """
+    Define function for semi-random game loop.
+    """
     def randomGameLoop(self):
         while self.running == True: 
+            """
+            Choose random car from self.cars and move it left. 
+            Same for other directions untill "X" (Red car) reaches exit. 
+            """
             self.moveCarLeft(random.choice(random.choice(self.cars)._name))
             self.moveCarRight(random.choice(random.choice(self.cars)._name))
             self.moveCarUp(random.choice(random.choice(self.cars)._name))
@@ -307,22 +308,13 @@ class Board():
         print("Number of moves", self.movecounter)
 
 
-    # Disable
-    def blockPrint():
-        sys.stdout = open(os.devnull, 'w')
-
-    # Restore
-    def enablePrint():
-        sys.stdout = sys.__stdout__
-
-
     """
     Define function for breadth first algorithm. 
     """
     def breadthFirst(self):
         # create queue
-        moves = queue.Queue()
-        moves.put("")
+        moves = deque()
+        moves.append("")
         path = ""
         states = {""}
         startposion = self.noprintBoard()
@@ -333,7 +325,7 @@ class Board():
             self.cars = copy.deepcopy(self._cars_init)
 
             # get first item in queue
-            path = moves.get()
+            path = moves.popleft()
             print(len(path) / 2)
 
             # set cars to new configuration
@@ -378,11 +370,24 @@ class Board():
                         self.running = False
 
             # put every moving car at the end of a path and in a queue
+            prio1 = deque("")
+            prio2 = deque("")
             for i in range(0, len(moving_cars), 2):
-                move = moving_cars[i] + moving_cars[i + 1]
-                put = path + move
-                states.add(put)
-                moves.put(put)
+                if moving_cars[i] == "X" and moving_cars[i + 1] == "R": 
+                    move = moving_cars[i] + moving_cars[i + 1]
+                    put = path + move
+                    states.add(put)
+                    prio1.appendleft(put)
+                elif moving_cars[i + 1] == "L": 
+                    move = moving_cars[i] + moving_cars[i + 1]
+                    put = path + move
+                    states.add(put)
+                    prio2.appendleft(put)
+                else:
+                    move = moving_cars[i] + moving_cars[i + 1]
+                    put = path + move
+                    states.add(put)
+                    moves.append(put)
                 # check if car X is at exit
                 if move == "XR":
                     self.moveCarRight('X')
@@ -394,3 +399,4 @@ class Board():
                         print("How many steps: ", len(path + move) / 2)
                     else:
                         self.moveCarLeft('X')
+            moves = prio1 + prio2 + moves
