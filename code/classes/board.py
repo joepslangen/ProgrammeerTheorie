@@ -131,7 +131,6 @@ class Board():
             else:
                 for index in range(0, car._length):
                     self.gameboard[car.row + index][car.column] = car._name.lower()
-        self.gameboard = pd.DataFrame(self.gameboard)
 
     """
     Define function to move cars to the left.
@@ -145,7 +144,7 @@ class Board():
         for car in self.cars: 
             if car._orientation == "H": 
                 if car._name == carname:
-                    if self.gameboard.loc[car.row, car.column - 1] == "0":
+                    if self.gameboard[car.row][car.column - 1] == "0": 
                         car.column -= 1
                         self.place_car(self.cars)
                         #print("The car:", carname, "has moved to the left")
@@ -164,7 +163,7 @@ class Board():
         for car in self.cars: 
             if car._orientation == "H": 
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row, car.column + car._length] == "0":
+                    if self.gameboard[car.row][car.column + car._length] == "0":
                         car.column += 1
                         self.place_car(self.cars)
                         #print("The car:", carname, "has moved to the right")
@@ -175,7 +174,7 @@ class Board():
                     equals 2,, meaning the exit has been reached. 
                     """
                     if car._name == 'X':
-                        if self.gameboard.loc[car.row, car.column + car._length] == "2":
+                        if self.gameboard[car.row][car.column + car._length] == "2":
                             print("You did it!")
                             self.running = False
     
@@ -191,7 +190,7 @@ class Board():
         for car in self.cars: 
             if car._orientation == "V":
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row - 1, car.column] == "0":
+                    if self.gameboard[car.row - 1][car.column] == "0":
                         car.row -= 1
                         self.place_car(self.cars)
                         #print("The car:", car._name, "has moved up")
@@ -210,7 +209,7 @@ class Board():
         for car in self.cars: 
             if car._orientation == "V": 
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row + car._length, car.column] == "0":
+                    if self.gameboard[car.row + car._length][car.column] == "0":
                         car.row += 1
                         self.place_car(self.cars)
                         #print("The car:", car._name, "has moved down")
@@ -231,7 +230,7 @@ class Board():
         self.courdict and print. 
         """
         screenshot = ""
-        gameboard = self.gameboard.values.tolist()
+        gameboard = self.gameboard
         for row in gameboard: 
             for cell in row: 
                 if cell == "1" or cell == "0": 
@@ -258,7 +257,7 @@ class Board():
     """
     def noprintBoard(self):
         screenshot = ""
-        gameboard = self.gameboard.values.tolist()
+        gameboard = self.gameboard
         for row in gameboard: 
             for cell in row: 
                 if cell == "1" or cell == "0": 
@@ -379,20 +378,20 @@ class Board():
             moving_cars = []
             for car in self.cars:
                 if car._orientation == "V":  
-                    if self.gameboard.loc[car.row + car._length, car.column] == "0":
+                    if self.gameboard[car.row + car._length][car.column] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('D')
-                    if self.gameboard.loc[car.row - 1, car.column] == "0":
+                    if self.gameboard[car.row - 1][car.column] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('U')
                 if car._orientation == "H":  
-                    if self.gameboard.loc[car.row, car.column + car._length] == "0":
+                    if self.gameboard[car.row][car.column + car._length] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('R')
-                    if self.gameboard.loc[car.row, car.column - 1] == "0":
+                    if self.gameboard[car.row][car.column - 1] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('L')
-                    if car._name == "X" and self.gameboard.loc[car.row, car.column + car._length] == "2":
+                    if car._name == "X" and self.gameboard[car.row][car.column + car._length] == "2":
                         self.stop = timeit.default_timer()
                         print("Time", self.stop - self.start, "seconds")
                         print(len(path) / 2)
@@ -442,7 +441,7 @@ class Board():
                 """
                 if move == "XR":
                     self.moveCarRight('X')
-                    if self.gameboard.loc[car.row, car.column + car._length] == "2":
+                    if self.gameboard[car.row][car.column + car._length] == "2":
                         print("Path:", path + move)
                         self.stop = timeit.default_timer()
                         print("Time", self.stop - self.start, "seconds")
