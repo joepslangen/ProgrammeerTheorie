@@ -73,7 +73,13 @@ class Board():
         the empty one. 
         """
         self.empty_board = ones_matrix
-        self.gameboard = pd.DataFrame(self.empty_board).astype(int)
+        self.empty_board_string = []
+        for i in self.empty_board: 
+            row = []
+            for j in i: 
+                row.append(str(int(j)))
+            self.empty_board_string.append(row)
+        self.gameboard = copy.deepcopy(self.empty_board_string)
 
     
     """
@@ -117,14 +123,15 @@ class Board():
         list and check their current rows, collumns, orientation and lenght. 
         Replace the zeroes in the empty gameboard with the car name. 
         """
-        self.gameboard = pd.DataFrame(self.empty_board).astype(int)
+        self.gameboard = copy.deepcopy(self.empty_board_string)
         for car in cars: 
             if car._orientation == "H":
                 for index in range(0, car._length):
-                    self.gameboard.loc[car.row, car.column + index] = car._name
+                    self.gameboard[car.row][car.column + index] = car._name
             else:
                 for index in range(0, car._length):
-                    self.gameboard.loc[car.row + index, car.column] = car._name.lower()
+                    self.gameboard[car.row + index][car.column] = car._name.lower()
+        self.gameboard = pd.DataFrame(self.gameboard)
 
     """
     Define function to move cars to the left.
@@ -138,11 +145,11 @@ class Board():
         for car in self.cars: 
             if car._orientation == "H": 
                 if car._name == carname:
-                    if self.gameboard.loc[car.row, car.column - 1] == 0:
+                    if self.gameboard.loc[car.row, car.column - 1] == "0":
                         car.column -= 1
                         self.place_car(self.cars)
-                        print("The car:", carname, "has moved to the left")
-                        self.printBoard()
+                        #print("The car:", carname, "has moved to the left")
+                        #self.printBoard()
                         self.movecounter += 1
 
     """
@@ -157,18 +164,18 @@ class Board():
         for car in self.cars: 
             if car._orientation == "H": 
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row, car.column + car._length] == 0:
+                    if self.gameboard.loc[car.row, car.column + car._length] == "0":
                         car.column += 1
                         self.place_car(self.cars)
-                        print("The car:", carname, "has moved to the right")
-                        self.printBoard()
+                        #print("The car:", carname, "has moved to the right")
+                        #self.printBoard()
                         self.movecounter += 1
                     """
                     If the car willing to move is X (Red car), check if the cell on the right
                     equals 2,, meaning the exit has been reached. 
                     """
                     if car._name == 'X':
-                        if self.gameboard.loc[car.row, car.column + car._length] == 2:
+                        if self.gameboard.loc[car.row, car.column + car._length] == "2":
                             print("You did it!")
                             self.running = False
     
@@ -184,11 +191,11 @@ class Board():
         for car in self.cars: 
             if car._orientation == "V":
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row - 1, car.column] == 0:
+                    if self.gameboard.loc[car.row - 1, car.column] == "0":
                         car.row -= 1
                         self.place_car(self.cars)
-                        # print("The car:", car._name, "has moved up")
-                        # self.printBoard()
+                        #print("The car:", car._name, "has moved up")
+                        #self.printBoard()
                         self.movecounter += 1
 
     """
@@ -203,11 +210,11 @@ class Board():
         for car in self.cars: 
             if car._orientation == "V": 
                 if car._name == carname: 
-                    if self.gameboard.loc[car.row + car._length, car.column] == 0:
+                    if self.gameboard.loc[car.row + car._length, car.column] == "0":
                         car.row += 1
                         self.place_car(self.cars)
-                        # print("The car:", car._name, "has moved down")
-                        # self.printBoard()
+                        #print("The car:", car._name, "has moved down")
+                        #self.printBoard()
                         self.movecounter += 1
 
                 
@@ -227,10 +234,10 @@ class Board():
         gameboard = self.gameboard.values.tolist()
         for row in gameboard: 
             for cell in row: 
-                if cell == 1 or cell == 0: 
+                if cell == "1" or cell == "0": 
                     cprint(int(cell), 'grey', end = "  ")
                     screenshot += str(cell)
-                elif cell == 2: 
+                elif cell == "2": 
                     cprint(int(cell), 'red', end = '  ')
                     screenshot += str(cell)
                 elif cell == "X": 
@@ -254,9 +261,9 @@ class Board():
         gameboard = self.gameboard.values.tolist()
         for row in gameboard: 
             for cell in row: 
-                if cell == 1 or cell == 0: 
+                if cell == "1" or cell == "0": 
                     screenshot += str(cell)
-                elif cell == 2: 
+                elif cell == "2": 
                     screenshot += str(cell)
                 elif cell == "X": 
                     screenshot += str(cell)
@@ -334,7 +341,7 @@ class Board():
             path length. 
             """
             path = moves.popleft()
-            print(len(path) / 2)
+            #print(len(path) / 2)
 
             """
             Read through the chosen path. 
@@ -352,12 +359,12 @@ class Board():
                     self.moveCarDown(path[i])
             
             """
-            Check if the currently loaded gameboard has previously been loaded 
-            ,excluding the start configuration. Continue and add to history or skip
+            Check if the currently loaded gameboard has previously been loaded,
+            excluding the start configuration. Continue and add to history or skip
             this board.
             """
             if self.noprintBoard() in self.history and self.noprintBoard() != startposion: 
-                print("duplicate")
+                #print("duplicate")
                 continue
             else: 
                 self.history.append(self.noprintBoard())
@@ -372,20 +379,20 @@ class Board():
             moving_cars = []
             for car in self.cars:
                 if car._orientation == "V":  
-                    if self.gameboard.loc[car.row + car._length, car.column] == 0:
+                    if self.gameboard.loc[car.row + car._length, car.column] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('D')
-                    if self.gameboard.loc[car.row - 1, car.column] == 0:
+                    if self.gameboard.loc[car.row - 1, car.column] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('U')
                 if car._orientation == "H":  
-                    if self.gameboard.loc[car.row, car.column + car._length] == 0:
+                    if self.gameboard.loc[car.row, car.column + car._length] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('R')
-                    if self.gameboard.loc[car.row, car.column - 1] == 0:
+                    if self.gameboard.loc[car.row, car.column - 1] == "0":
                         moving_cars.append(car._name)
                         moving_cars.append('L')
-                    if car._name == "X" and self.gameboard.loc[car.row, car.column + car._length] == 2:
+                    if car._name == "X" and self.gameboard.loc[car.row, car.column + car._length] == "2":
                         self.stop = timeit.default_timer()
                         print("Time", self.stop - self.start, "seconds")
                         print(len(path) / 2)
@@ -435,7 +442,7 @@ class Board():
                 """
                 if move == "XR":
                     self.moveCarRight('X')
-                    if self.gameboard.loc[car.row, car.column + car._length] == 2:
+                    if self.gameboard.loc[car.row, car.column + car._length] == "2":
                         print("Path:", path + move)
                         self.stop = timeit.default_timer()
                         print("Time", self.stop - self.start, "seconds")
