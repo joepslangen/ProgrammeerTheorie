@@ -12,9 +12,9 @@ from termcolor import cprint
 import random
 from code.classes.car import Car
 import timeit
-import copy
 import os
 from collections import deque
+import pickle
 
 """
 Start class for the game board. 
@@ -79,7 +79,7 @@ class Board():
             for j in i: 
                 row.append(str(int(j)))
             self.empty_board_string.append(row)
-        self.gameboard = copy.deepcopy(self.empty_board_string)
+        self.gameboard = pickle.loads(pickle.dumps(self.empty_board_string))
 
     
     """
@@ -123,7 +123,7 @@ class Board():
         list and check their current rows, collumns, orientation and lenght. 
         Replace the zeroes in the empty gameboard with the car name. 
         """
-        self.gameboard = copy.deepcopy(self.empty_board_string)
+        self.gameboard = pickle.loads(pickle.dumps(self.empty_board_string))
         for car in cars: 
             if car._orientation == "H":
                 for index in range(0, car._length):
@@ -334,7 +334,7 @@ class Board():
             a deep copy of this state. 
             """
             self.place_car(self._cars_init)
-            self.cars = copy.deepcopy(self._cars_init)
+            self.cars = pickle.loads(pickle.dumps(self._cars_init))
 
             """
             Take the first state from the queue and print
@@ -458,7 +458,8 @@ class Board():
                 moves = prio1 + prio2 + prio3 + moves
             else: 
                 """
-                If heuristic is false. Run without heuristics.
+                If heuristic is false. Run without heuristics and 
+                treat every board as equal. 
                 """
                 for i in range(0, len(moving_cars), 2):
                     move = moving_cars[i] + moving_cars[i + 1]
