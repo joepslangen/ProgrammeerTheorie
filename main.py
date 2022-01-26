@@ -7,7 +7,7 @@ import numpy as np
 
 #read rushhour6x6_1.csv
 dimensions = 6
-puzzle_number = 3
+puzzle_number = 1
 Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
 """
@@ -35,6 +35,7 @@ game = Board(dimensions)
 game.load_cars(Rushhour_df)
 game.place_car(game.cars)
 game.printBoard()
-game.breadthFirst(heuristic = True)
+#game.breadthFirst(heuristic = True)
+game.randomGameLoop()
 game.printBoard()
 game.writeOutput()

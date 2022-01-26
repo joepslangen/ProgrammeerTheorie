@@ -148,7 +148,7 @@ class Board():
                         car.column -= 1
                         self.place_car(self.cars)
                         #print("The car:", carname, "has moved to the left")
-                        #self.printBoard()
+                        self.printBoard()
                         self.movecounter += 1
 
     """
@@ -167,7 +167,7 @@ class Board():
                         car.column += 1
                         self.place_car(self.cars)
                         #print("The car:", carname, "has moved to the right")
-                        #self.printBoard()
+                        self.printBoard()
                         self.movecounter += 1
                     """
                     If the car willing to move is X (Red car), check if the cell on the right
@@ -194,7 +194,7 @@ class Board():
                         car.row -= 1
                         self.place_car(self.cars)
                         #print("The car:", car._name, "has moved up")
-                        #self.printBoard()
+                        self.printBoard()
                         self.movecounter += 1
 
     """
@@ -213,7 +213,7 @@ class Board():
                         car.row += 1
                         self.place_car(self.cars)
                         #print("The car:", car._name, "has moved down")
-                        #self.printBoard()
+                        self.printBoard()
                         self.movecounter += 1
 
                 
