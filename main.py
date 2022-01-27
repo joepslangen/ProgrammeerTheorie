@@ -1,40 +1,43 @@
-## Jasper Paul
-# main file for checking the code
-
+"""
+Importing required packages
+"""
 import pandas as pd
+from code.algorithms.semi_random import Semi_random
+from code.algorithms.BFS import BFS
+from code.algorithms.BFS_plus import BFS_plus
 from code.classes.board import Board
-import numpy as np
 
-#read rushhour6x6_1.csv
+"""
+Setting the dimensions and puzzle number to load correct configuration file
+"""
 dimensions = 6
-puzzle_number = 3
+puzzle_number = 1
 Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
 """
-output = {}
-output["moves"] = "time"
-moves = []
-times = []
-for i in range(0, 100):
-
-    game = Board(dimensions)
-    game.load_cars(Rushhour_df)
-    game.place_car(game.cars)
-    game.printBoard()
-    values = game.randomGameLoop()
-    moves.append(values[0])
-    times.append(values[1])
-    game.printBoard()
-    game.writeOutput()
-
-print(f"Mean moves: {np.mean(moves)}")
-print(f"Mean time: {np.mean(times)}")
+Creation of the different elements
 """
-
 game = Board(dimensions)
+semi_random = Semi_random(game)
+bfs = BFS(game)
+bfs_plus = BFS_plus(game)
+
+"""
+Setting up the board to run algorithm
+"""
 game.load_cars(Rushhour_df)
 game.place_car(game.cars)
 game.printBoard()
-game.breadthFirst(heuristic = True)
+
+"""
+Run chosen algorithm
+"""
+#bfs_plus.bfs_plus()
+#bfs.bfs()
+#semi_random.semi_random()
+
+"""
+Set correct output
+"""
 game.printBoard()
 game.writeOutput()
