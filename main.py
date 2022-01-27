@@ -34,7 +34,7 @@ Run chosen algorithm
 """
 #bfs_plus.bfs_plus()
 #bfs.bfs()
-#semi_random.semi_random()
+semi_random.semi_random()
 
 """
 Set correct output

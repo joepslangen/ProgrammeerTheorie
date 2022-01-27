@@ -1,9 +1,5 @@
 """
-Required imports: 
-pandas for correct matrix operations
-numpy for generating matrices used for empty board
-sys, termcolor and random for colour printing cars
-car for using Car() class
+Required imports
 """
 import pandas as pd
 import numpy as np
@@ -16,15 +12,18 @@ import os
 import pickle
 
 """
-Start class for the game board. 
-Includes board init, car loading, 
-car placement, car movement, 
-board printing and output functions. 
+Creation of the Board class. This class does everything 
+regarding the gameboard. It sets it up, moves cars
+prints and clears the board. 
 """
 class Board():
 
     def __init__(self, dimensions):
-
+        """
+        self.history required for keeping track of boards previously seen 
+        self.running to check if game has ended
+        self.start/stop/movecounter to keep track of interesting variables
+        """
         self.history = []
         self.running = True
         self.start, self.stop, self.movecounter = timeit.default_timer(), 0, 0
@@ -43,6 +42,9 @@ class Board():
         self.cars, self._cars_init = [], []
         self._rows_init, self._cols_init = {}, {}
 
+        """
+        Creation of empty board, empty board in string format and the playable gameboard.
+        """
         self.empty_board = self.create_empty_gameboard(dimensions)
         self.gameboard, self.empty_board_string = self.create_gameboard(self.empty_board)
 
@@ -64,14 +66,13 @@ class Board():
         row_out = (dimensions + 1) // 2
         ones_matrix[row_out][col_out] = 2
         
-        """"
-        Finally define a emptygameboard and set the current gameboard to 
-        the empty one. 
-        """
         return ones_matrix
         
 
     def create_gameboard(self, empty_board):
+        """
+        Take the empty gameboard and turn it into a playable gameboard
+        """
         empty_board_string = []
         for i in empty_board: 
             row = []
@@ -110,7 +111,6 @@ class Board():
             car = Car(car_name, car_orientation, car_column, car_row, car_length)
             car_init = Car(car_name, car_orientation, car_column, car_row, car_length)
             self.cars.append(car)
-            # self._cars_init.append(car)
         
             self._cars_init.append(car_init)
 

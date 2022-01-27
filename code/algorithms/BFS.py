@@ -1,16 +1,13 @@
 import queue
 import pickle
 import timeit
-import queue
 
 class BFS(): 
     """
     Define function for breadth first algorithm. 
     """
-
     def __init__(self, board): 
         self.board = board
-
 
     """
     Define function for breadth first algorithm. 
@@ -26,7 +23,9 @@ class BFS():
         startposion = self.board.noprintBoard()
 
         while self.board.running == True:
-            
+            """
+            Place cars in initial configuration
+            """
             self.place_car_init()
 
             """
@@ -35,6 +34,9 @@ class BFS():
             """
             path = moves.get()
 
+            """
+            Place cars in configuration as states in the path
+            """
             self.place_car_current(path)
             
             """
@@ -47,10 +49,16 @@ class BFS():
             else: 
                 self.board.history.append(self.board.noprintBoard())
 
-
+            """
+            Check which car can move in which directions 
+            and keep the info in a list
+            """
             moving_cars = self.check_car_movement()
 
-
+            """
+            Move through the possible movements, create
+            children paths and add to queue. Also check for endgame. 
+            """
             for i in range(0, len(moving_cars), 2):
                 move = moving_cars[i] + moving_cars[i + 1]
                 put = path + move

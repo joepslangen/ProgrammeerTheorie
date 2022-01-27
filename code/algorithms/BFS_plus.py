@@ -10,6 +10,9 @@ class BFS_plus():
     def __init__(self, board): 
         self.board = board
     
+    """
+    Define function for breadth first algorithm with heuristics
+    """
     def bfs_plus(self):
         """
         Creation of the BFS queue moves and required variables containing the path, 
@@ -21,13 +24,20 @@ class BFS_plus():
         startposion = self.board.noprintBoard()
 
         while self.board.running == True:
+            """
+            Place cars in initial configuration
+            """
             self.place_car_init()
+
             """
             Take the first state from the queue and print
             path length. 
             """
             path = moves.popleft()
 
+            """
+            Place cars in configuration as states in the path
+            """
             self.place_car_current(path)
             
             """
@@ -40,28 +50,14 @@ class BFS_plus():
             else: 
                 self.board.history.append(self.board.noprintBoard())
 
-
             """
-            Move through the cars in self.board.cars. 
-            Check if they can move left, right, up or down
-            and add their name + direction to moving_cars list. 
-            If the Red car (X) can move and end the game, just end the game. 
+            Check which car can move in which directions 
+            and keep the info in a list
             """
             moving_cars = self.check_car_movement()
 
             """
-            Simple introduction of heuristics. Determine if the Red car
-            could move to the right. If so, this move is brings us 
-            closer to the endgame and thus this configuration will 
-            have priority over the others and will be placed in the prio1 queue. 
-            Moving cars to the left creates space on the right of the Red car, 
-            improving future movement posibilities. So place these configs in prio2. 
-            Moving cars up and down also creates space for the Red car, so prio3. Finally
-            moving cars other than the Red one to the right most likely does not improve the 
-            configuration, so no priority. 
-
-            The priority queues will ensure that promising configurations will be explored first, 
-            which greatly reduces search time. 
+            Go through with the BFS algorithm while applying heuristics
             """
             moves = self.heuristics(moving_cars, path, moves)
 
@@ -115,6 +111,20 @@ class BFS_plus():
         return moving_cars
 
     def heuristics(self, moving_cars, path, moves): 
+        """
+        Simple introduction of heuristics. Determine if the Red car
+        could move to the right. If so, this move is brings us 
+        closer to the endgame and thus this configuration will 
+        have priority over the others and will be placed in the prio1 queue. 
+        Moving cars to the left creates space on the right of the Red car, 
+        improving future movement posibilities. So place these configs in prio2. 
+        Moving cars up and down also creates space for the Red car, so prio3. Finally
+        moving cars other than the Red one to the right most likely does not improve the 
+        configuration, so no priority. 
+
+        The priority queues will ensure that promising configurations will be explored first, 
+        which greatly reduces search time. 
+        """
         prio1 = deque("")
         prio2 = deque("")
         prio3 = deque("")

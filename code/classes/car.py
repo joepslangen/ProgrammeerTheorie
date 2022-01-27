@@ -1,12 +1,10 @@
-## Jasper Paul
-## Helper file board_setup.py
-## Defines the Car() class
-
-#define class "Car()"
+"""
+Defining the car class required for board.py 
+"""
 class Car():
-    
-    #initialize and set car properties
-    #properties will be extracted from the .csv files
+    """
+    Set car properties
+    """
     def __init__(self, name, orientation, column, row, length):
         self._name = name
         self._orientation = orientation

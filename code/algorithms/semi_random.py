@@ -18,7 +18,9 @@ class Semi_random():
             self.board.moveCarRight(random.choice(random.choice(self.board.cars)._name))
             self.board.moveCarUp(random.choice(random.choice(self.board.cars)._name))
             self.board.moveCarDown(random.choice(random.choice(self.board.cars)._name))
+        """
+        When game is stopped, return runtime and number of moves
+        """
         self.board.stop = timeit.default_timer()
         print("Time", self.board.stop - self.board.start, "seconds")
         print("Number of moves", self.board.movecounter)
-        return [self.board.movecounter, self.board.stop - self.board.start]
