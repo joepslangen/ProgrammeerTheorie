@@ -427,6 +427,8 @@ class Board():
                                 x = True
                         if not x:
                             continue
+                    if len(path) > 500:
+                        continue
                     if moving_cars[i] == "X" and moving_cars[i + 1] == "R": 
                         move = moving_cars[i] + moving_cars[i + 1]
                         put = path + move
