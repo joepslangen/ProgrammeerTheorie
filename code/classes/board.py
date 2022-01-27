@@ -413,10 +413,20 @@ class Board():
             which greatly reduces search time. 
             """
             if heuristic == True: 
+                # print(path)
+                # print(len(path)/2)
+                # print(moving_cars)
+                x = False
                 prio1 = deque("")
                 prio2 = deque("")
                 prio3 = deque("")
                 for i in range(0, len(moving_cars), 2):
+                    if len(path) == 200:
+                        for j in range(0, len(path), 2):
+                            if path[j] == "X":
+                                x = True
+                        if not x:
+                            continue
                     if moving_cars[i] == "X" and moving_cars[i + 1] == "R": 
                         move = moving_cars[i] + moving_cars[i + 1]
                         put = path + move
@@ -461,22 +471,35 @@ class Board():
                 If heuristic is false. Run without heuristics and 
                 treat every board as equal. 
                 """
+                x = False
+                print(path)
+                print(len(path)/2)
                 for i in range(0, len(moving_cars), 2):
-                    move = moving_cars[i] + moving_cars[i + 1]
-                    put = path + move
-                    states.add(put)
-                    moves.append(put)
+                    if len(path) == 200:
+                        for i in range(0, len(path), 2):
+                            if path[i] == "X":
+                                x = True
+                        if x:
+                            move = moving_cars[i] + moving_cars[i + 1]
+                            put = path + move
+                            states.add(put)
+                            moves.append(put)
+                    else:
+                        move = moving_cars[i] + moving_cars[i + 1]
+                        put = path + move
+                        states.add(put)
+                        moves.append(put)
 
-                    """
-                    Again a end-game check function. 
-                    """
-                    if move == "XR":
-                        self.moveCarRight('X')
-                        if self.gameboard[car.row][car.column + car._length] == "2":
-                            print("Path:", path + move)
-                            self.stop = timeit.default_timer()
-                            print("Time", self.stop - self.start, "seconds")
-                            self.running = False
-                            print("How many steps: ", len(path + move) / 2)
-                        else:
-                            self.moveCarLeft('X')
+                """
+                Again a end-game check function. 
+                """
+                if move == "XR":
+                    self.moveCarRight('X')
+                    if self.gameboard[car.row][car.column + car._length] == "2":
+                        print("Path:", path + move)
+                        self.stop = timeit.default_timer()
+                        print("Time", self.stop - self.start, "seconds")
+                        self.running = False
+                        print("How many steps: ", len(path + move) / 2)
+                    else:
+                        self.moveCarLeft('X')
