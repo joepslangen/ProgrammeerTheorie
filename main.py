@@ -11,8 +11,8 @@ from code.classes.board import Board
 """
 Setting the dimensions and puzzle number to load correct configuration file
 """
-dimensions = 9
-puzzle_number = 4
+dimensions = 6
+puzzle_number = 1
 Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
 """
@@ -22,7 +22,7 @@ game = Board(dimensions)
 semi_random = Semi_random(game)
 bfs = BFS(game)
 bfs_plus = BFS_plus(game)
-hill = Hill(game, Rushhour_df)
+hill = Hill(game)
 
 """
 Setting up the board to run algorithm
