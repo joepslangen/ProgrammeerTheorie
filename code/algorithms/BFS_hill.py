@@ -1,3 +1,4 @@
+from cmath import atan
 import pickle 
 from code.algorithms.semi_random import Semi_random
 import copy
@@ -8,39 +9,37 @@ import random
 
 class BFS_hill(): 
 
-    def __init__(self, board): 
+    def __init__(self, board, Rushhour_df): 
         self.board = board
+        self.Rushhour_df = Rushhour_df
 
     def bfs_hill(self): 
-        #semi_random = Semi_random(self.board)
-        #path = semi_random.semi_random()
+        semi_random = Semi_random(self.board)
+        path = semi_random.semi_random()
+
+        print(len(path))
+
         
-
-        path = [ "XRa", "XRb", "XRc", "XRd", "XRe"]
-        print(self.path_check(path))
-        del path[random.randint(0, len(path) - 1)]
-        print(path)
-        print(self.path_check(path))
-        """
         old_stdout = sys.stdout
-        #sys.stdout = open(os.devnull, "w")
-        for i in range(len(path)): 
-            move = path[i]
-            path_copy[i] = "  "
-            if self.path_check(path_copy) == True:
-                print("Good run")
-            else:
-                path_copy[i] = move
-                print("Bad run")
+        sys.stdout = open(os.devnull, "w")
 
+        for i in range(0, 200): 
+            self.board.running = True
+            self.board.cars = pickle.loads(pickle.dumps(self.board._cars_init))
+            self.board.place_car(self.board.cars)
+            temp_path = semi_random.semi_random()
+            if len(temp_path) < len(path): 
+                path = temp_path
+        
         sys.stdout = old_stdout
-
-        print(path_copy)
-        """
+        
+        print(len(path))
+        print()
         
 
     def path_check(self, path):
         self.board.running = True
+        self.board.load_cars(self.Rushhour_df)
         self.board.place_car(self.board._cars_init)
         for i in path: 
             car, direction = i[0], i[1]
@@ -54,6 +53,7 @@ class BFS_hill():
                 self.board.moveCarUp(car)
             elif direction == "D": 
                 self.board.moveCarDown(car)
+            self.board.printBoard()
         if self.board.running == False: 
             return True
         else: 
