@@ -9,17 +9,16 @@ class Semi_random():
         self.board = board
     
     def semi_random(self):
+        path = []
         while self.board.running == True: 
-            path = []
-            while self.board.running == True: 
-                self.moveLeft(path)
-                self.moveRight(path)
-                self.moveUp(path)
-                self.moveDown(path)
-            self.board.stop = timeit.default_timer()
-            #print(f"Time {self.board.stop - self.board.start} seconds")
-            #print(f"Number of moves: {self.board.movecounter}")
-            return path
+            self.moveLeft(path)
+            self.moveRight(path)
+            self.moveUp(path)
+            self.moveDown(path)
+        self.board.stop = timeit.default_timer()
+        #print(f"Time {self.board.stop - self.board.start} seconds")
+        #print(f"Number of moves: {self.board.movecounter}")
+        return path
 
     def moveLeft(self, path): 
         car = random.choice(random.choice(self.board.cars)._name)

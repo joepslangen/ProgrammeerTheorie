@@ -22,7 +22,9 @@ class Hill():
         sys.stdout = open(os.devnull, "w")
 
         """
-        
+        Set gameboard to running. Load cars and place on fresh board. 
+        Generate random path and check lenght. If path is shorter keep 
+        this path as shortest path.
         """
         for i in range(0, 100): 
             self.board.running = True
