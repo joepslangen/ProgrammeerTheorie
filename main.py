@@ -9,7 +9,7 @@ from code.algorithms.hill import Hill
 from code.classes.board import Board
 
 """
-Setting the dimensions and puzzle number to load correct configuration file
+Setting the dimensions and puzzle number to load correct configuration file 
 """
 dimensions = 6
 puzzle_number = 1
