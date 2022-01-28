@@ -5,13 +5,14 @@ import pandas as pd
 from code.algorithms.semi_random import Semi_random
 from code.algorithms.BFS import BFS
 from code.algorithms.BFS_plus import BFS_plus
+from code.algorithms.BFS_hill import BFS_hill
 from code.classes.board import Board
 
 """
 Setting the dimensions and puzzle number to load correct configuration file
 """
 dimensions = 6
-puzzle_number = 1
+puzzle_number = 0
 Rushhour_df = pd.read_csv(f"gameboards/Rushhour{dimensions}x{dimensions}_{puzzle_number}.csv")
 
 """
@@ -21,6 +22,7 @@ game = Board(dimensions)
 semi_random = Semi_random(game)
 bfs = BFS(game)
 bfs_plus = BFS_plus(game)
+bfs_hill = BFS_hill(game)
 
 """
 Setting up the board to run algorithm
@@ -32,9 +34,10 @@ game.printBoard()
 """
 Run chosen algorithm
 """
+bfs_hill.bfs_hill()
 #bfs_plus.bfs_plus()
 #bfs.bfs()
-semi_random.semi_random()
+#semi_random.semi_random()
 
 """
 Set correct output

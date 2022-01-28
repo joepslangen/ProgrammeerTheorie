@@ -148,6 +148,7 @@ class Board():
                         car.column -= 1
                         self.place_car(self.cars)
                         self.movecounter += 1
+                        return True
 
     """
     Define function to move cars to the right.
@@ -165,6 +166,7 @@ class Board():
                         car.column += 1
                         self.place_car(self.cars)
                         self.movecounter += 1
+                        return True
                     """
                     If the car willing to move is X (Red car), check if the cell on the right
                     equals 2,, meaning the exit has been reached. 
@@ -175,6 +177,7 @@ class Board():
                             print("You did it!")
                             print(f"Time: {self.stop - self.start} seconds")
                             self.running = False
+                            return True
     
     """
     Define function to move cars up.
@@ -192,6 +195,7 @@ class Board():
                         car.row -= 1
                         self.place_car(self.cars)
                         self.movecounter += 1
+                        return True 
 
     """
     Define function to move cars down.
@@ -209,6 +213,7 @@ class Board():
                         car.row += 1
                         self.place_car(self.cars)
                         self.movecounter += 1
+                        return True
 
                 
     """
