@@ -413,22 +413,24 @@ class Board():
             which greatly reduces search time. 
             """
             if heuristic == True: 
-                # print(path)
-                # print(len(path)/2)
+                print(path)
+                print(len(path)/2)
                 # print(moving_cars)
                 x = False
                 prio1 = deque("")
                 prio2 = deque("")
                 prio3 = deque("")
-                for i in range(0, len(moving_cars), 2):
-                    if len(path) == 200:
+
+                if len(path) == 200:
                         for j in range(0, len(path), 2):
                             if path[j] == "X":
                                 x = True
                         if not x:
                             continue
-                    if len(path) > 500:
-                        continue
+                elif len(path) > 500:
+                    continue
+                # else:
+                for i in range(0, len(moving_cars), 2):
                     if moving_cars[i] == "X" and moving_cars[i + 1] == "R": 
                         move = moving_cars[i] + moving_cars[i + 1]
                         put = path + move
@@ -473,24 +475,11 @@ class Board():
                 If heuristic is false. Run without heuristics and 
                 treat every board as equal. 
                 """
-                x = False
-                print(path)
-                print(len(path)/2)
                 for i in range(0, len(moving_cars), 2):
-                    if len(path) == 200:
-                        for i in range(0, len(path), 2):
-                            if path[i] == "X":
-                                x = True
-                        if x:
-                            move = moving_cars[i] + moving_cars[i + 1]
-                            put = path + move
-                            states.add(put)
-                            moves.append(put)
-                    else:
-                        move = moving_cars[i] + moving_cars[i + 1]
-                        put = path + move
-                        states.add(put)
-                        moves.append(put)
+                    move = moving_cars[i] + moving_cars[i + 1]
+                    put = path + move
+                    states.add(put)
+                    moves.append(put)
 
                 """
                 Again a end-game check function. 
