@@ -1,3 +1,4 @@
+from imaplib import Time2Internaldate
 import random
 import timeit
 
@@ -7,18 +8,23 @@ class Semi_random():
     """
     def __init__(self, board):
         self.board = board
+        self.start = timeit.default_timer()
+        self.stop = 0 
     
     def semi_random(self):
         path = []
+        self.start = timeit.default_timer()
         while self.board.running == True: 
             self.moveLeft(path)
             self.moveRight(path)
             self.moveUp(path)
             self.moveDown(path)
         self.board.stop = timeit.default_timer()
+        self.stop = timeit.default_timer()
         #print(f"Time {self.board.stop - self.board.start} seconds")
         #print(f"Number of moves: {self.board.movecounter}")
-        return path
+        #return path
+        return self.stop - self.start, self.board.movecounter
 
     def moveLeft(self, path): 
         car = random.choice(random.choice(self.board.cars)._name)

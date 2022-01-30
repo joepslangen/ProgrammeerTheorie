@@ -15,3 +15,5 @@ output/
 # Hide more compiled code
 code/__pycache__/
 code/classes/__pycache__/
+
+#figures/
