@@ -15,7 +15,6 @@ class Hill():
     def hill(self): 
         self.start = timeit.default_timer()
 
-
         semi_random = Semi_random(self.board)
         path = semi_random.semi_random()
 
@@ -50,33 +49,3 @@ class Hill():
         
         print(len(path))
         return self.stop - self.start, len(path)
-        
-
-
-    # NOTE: Kan mogelijk weg
-    """
-    def path_check(self, path):
-        self.board.running = True
-        self.board.load_cars(self.Rushhour_df)
-        self.board.place_car(self.board._cars_init)
-        for i in path: 
-            car, direction = i[0], i[1]
-            if direction == " ": 
-                pass
-            elif direction == "L": 
-                self.board.moveCarLeft(car)
-            elif direction == "R": 
-                self.board.moveCarRight(car)
-            elif direction == "U": 
-                self.board.moveCarUp(car)
-            elif direction == "D": 
-                self.board.moveCarDown(car)
-            self.board.printBoard()
-        if self.board.running == False: 
-            return True
-        else: 
-            return False
-    """
-            
-
-

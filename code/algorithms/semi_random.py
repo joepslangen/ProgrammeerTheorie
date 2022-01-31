@@ -1,4 +1,3 @@
-from imaplib import Time2Internaldate
 import random
 import timeit
 
@@ -21,10 +20,8 @@ class Semi_random():
             self.moveDown(path)
         self.board.stop = timeit.default_timer()
         self.stop = timeit.default_timer()
-        #print(f"Time {self.board.stop - self.board.start} seconds")
-        #print(f"Number of moves: {self.board.movecounter}")
-        #return path
-        return self.stop - self.start, self.board.movecounter
+        #return path #required for hill.py
+        return self.stop - self.start, self.board.movecounter #enable to make histogram
 
     def moveLeft(self, path): 
         car = random.choice(random.choice(self.board.cars)._name)
