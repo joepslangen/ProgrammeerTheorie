@@ -9,6 +9,8 @@ class BFS_plus():
     """
     def __init__(self, board): 
         self.board = board
+        self.start = 0
+        self.stop = 0
     
     """
     Define function for breadth first algorithm with heuristics
@@ -23,6 +25,7 @@ class BFS_plus():
         path = ""
         startposion = self.board.noprintBoard()
 
+        self.start = timeit.default_timer()
         while self.board.running == True:
             """
             Place cars in initial configuration
@@ -60,6 +63,8 @@ class BFS_plus():
             Go through with the BFS algorithm while applying heuristics
             """
             moves = self.heuristics(moving_cars, path, moves)
+        self.stop = timeit.default_timer()
+        return self.stop - self.start, len(path)/2
 
     def place_car_init(self): 
         """

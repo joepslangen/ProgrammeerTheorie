@@ -8,6 +8,8 @@ class BFS():
     """
     def __init__(self, board): 
         self.board = board
+        self.start = 0
+        self.stop = 0
 
     """
     Define function for breadth first algorithm. 
@@ -21,6 +23,7 @@ class BFS():
         moves.put("")
         path = ""
         startposion = self.board.noprintBoard()
+        self.start = timeit.default_timer()
 
         while self.board.running == True:
             """
@@ -65,6 +68,8 @@ class BFS():
                 moves.put(put)
                     
                 self.check_endgame(move, path)
+        self.stop = timeit.default_timer()
+        return self.stop - self.start, len(path)/2
 
     def place_car_init(self): 
         """
