@@ -54,13 +54,13 @@ python3 main.py
 The following list describes the most important folders and files and where to find them in the repository:
 
 * /code: contains all the code from the project
-  **/code/algorithms: contains the code for the algorithms
-  **/code/classes: contains the classes necessary to run this project 
-  **/code/visualisation: contains a pygame visualisation of Rush Hour 
+  * /code/algorithms: contains the code for the algorithms
+  * /code/classes: contains the classes necessary to run this project 
+  * /code/visualisation: contains a pygame visualisation of Rush Hour 
 * /figures: contains all the graph results of the algorithms
 * /output: contains csv files with the results displayed in the graphs
 
-For more in depth information on the algorithms see algorithms.txt in the algorithms folder.
+For more in depth information on the algorithms see *algorithms.txt* in the algorithms folder.
 
 ## Contributors
 * Eva
