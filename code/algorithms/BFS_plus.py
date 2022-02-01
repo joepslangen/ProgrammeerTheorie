@@ -9,9 +9,7 @@ class BFS_plus():
         self.board = board
         self.start, self.stop = 0, 0
     
-    """
-    Define function for breadth first algorithm with heuristics
-    """
+
     def bfs_plus(self):
         """The BFS algorithm. 
 
