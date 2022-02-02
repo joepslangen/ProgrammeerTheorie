@@ -60,7 +60,7 @@ The following list describes the most important folders and files and where to f
 * /figures: contains all the graph results of the algorithms
 * /output: contains csv files with the results displayed in the graphs
 
-For more in depth information on the algorithms see [algorithms](algorithms/algorithms.md) in the algorithms folder.
+For more in depth information on the algorithms see [algorithms](https://github.com/joepslangen/ProgrammeerTheorie/blob/main/code/algorithms/algorithms.md) in the algorithms folder.
 
 ## Contributors
 * Eva
