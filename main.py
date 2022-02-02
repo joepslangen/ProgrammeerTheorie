@@ -9,9 +9,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import os
+import argparse
 
 dimensions_list = [6, 6, 6, 9, 9, 9]
 puzzle_number_list = [1, 2, 3, 4, 5, 6]
+
+algorithm_names = {"semi_random", "hill", "bfs", "bfs_plus", "bfs_plus_prune"}
 
 
 def easyhistloop(dimensions, puzzle_number, name, runs, output): 
@@ -55,8 +58,15 @@ def easyhistloop(dimensions, puzzle_number, name, runs, output):
 
         # add found values to output dictionary
         output["Name"].append(f"Puzzle: {dimensions}x{dimensions}-{puzzle_number} - Algorithm: {name}")
+        output["Min time"].append(round(min(times), 2))
+        output["Max time"].append(round(max(times), 2))
         output["Mean time"].append(round(np.mean(times), 2))
+        output["SD time"].append(round(np.std(times), 2))
+        output["Min moves"].append(round(min(moves), 2))
+        output["Max moves"].append(round(max(moves), 2))
         output["Mean moves"].append(round(np.mean(moves), 2))
+        output["SD moves"].append(round(np.std(moves), 2))
+        output["Tot runtime"].append(round(game.stop - game.start, 2))
 
         histogram_print(times, moves, nbins)
 
@@ -93,11 +103,32 @@ def easyhistloop(dimensions, puzzle_number, name, runs, output):
     game.printBoard()
     game.writeOutput()
 
+# start argparser
+parser = argparse.ArgumentParser(description = "Run chosen algorithm on all puzzels and return histograms")
 
-output = {"Name": [], "Mean time": [], "Mean moves": []}
+# add arguments name and runs
+parser.add_argument("Name", metavar = "name", type = str, help = "Name of algorithm. Available algorithms: \n semi_random, hill, bfs, bfs_plus, bfs_plus_prune")
+parser.add_argument("Runs", metavar = "runs", type = int, help = "Number of algorithm runs per puzzle")
+
+# extract arguments
+args = parser.parse_args()
+
+# set name and runs variables to given args
+name = args.Name
+runs = args.Runs
+
+# check if given algorithm name is correct
+if name not in algorithm_names: 
+    print("Please choose one of the avaiable algorithm names: \n semi_random, hill, bfs, bfs_plus, bfs_plus_prune" )
+    sys.exit()
+
+# start ouput dictionary
+output = {"Name": [], "Min time": [], "Max time" : [], "Mean time": [], "SD time": [], "Min moves" : [], "Max moves" : [], "Mean moves": [], "SD moves" : [], "Tot runtime": []}
+
+# loop through every puzzle and run the algorithm the requested number of times
 for i in range(len(dimensions_list)):
-    easyhistloop(dimensions = dimensions_list[i], puzzle_number = puzzle_number_list[i], name = "semi_random", runs = 10, output = output)
+    easyhistloop(dimensions = dimensions_list[i], puzzle_number = puzzle_number_list[i], name = name, runs = runs, output = output)
 
 # write output
 output = pd.DataFrame(output)
-output.to_csv('output/compare.csv')
+output.to_csv(f"output/{name}.csv")
