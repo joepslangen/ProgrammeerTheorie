@@ -17,3 +17,8 @@ code/__pycache__/
 code/classes/__pycache__/
 
 #figures/
+figures/*
+figuresbfs/*
+figureshill/*
+output_hill/*
+output_semi-random/*
