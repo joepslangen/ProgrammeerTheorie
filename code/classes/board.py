@@ -54,10 +54,10 @@ class Board():
         Cycle through the empty game board and transform each float into strings. 
         """
         empty_board_string = []
-        for row in empty_board: 
+        for i in empty_board: 
             row = []
-            for cell in row: 
-                row.append(str(int(cell)))
+            for j in i: 
+                row.append(str(int(j)))
             empty_board_string.append(row)
         gameboard = pickle.loads(pickle.dumps(empty_board_string))
         return gameboard, empty_board_string
