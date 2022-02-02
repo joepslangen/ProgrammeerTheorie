@@ -22,15 +22,20 @@ args = parser.parse_args()
 
 # set name and runs variables to given args
 name = args.Name
-runs = args.Runs
-puzzle_number = args.p
-dimensions = puzzle_dict[puzzle_number]
-
 
 # check if given algorithm name is correct
 if name not in algorithm_names: 
     print("Please choose one of the avaiable algorithm names: \n semi_random, hill, bfs, bfs_plus, bfs_plus_prune" )
     sys.exit()
+
+runs = args.Runs
+puzzle_number = args.p
+# check if given puzzle number is available
+if puzzle_number != None and puzzle_number not in puzzle_number_list: 
+    print("Please choose a puzzle number from 1 to 6")
+    sys.exit()
+
+dimensions = puzzle_dict[puzzle_number]
 
 # start ouput dictionary
 output = {"Name": [], "Min time": [], "Max time" : [], "Mean time": [], "SD time": [], "Min moves" : [], "Max moves" : [], "Mean moves": [], "SD moves" : [], "Tot runtime": []}
@@ -40,6 +45,7 @@ if dimensions == None and puzzle_number == None:
     for i in range(len(dimensions_list)):
         hist = Hist(dimensions = dimensions_list[i], puzzle_number = puzzle_number_list[i], name = name, runs = runs, output = output)
         hist.easyhistloop()
+# is specific puzzle is requested, only loop over that one
 else: 
     hist = hist = Hist(dimensions = dimensions, puzzle_number = puzzle_number, name = name, runs = runs, output = output)
     hist.easyhistloop()
