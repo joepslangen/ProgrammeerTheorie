@@ -1,7 +1,0 @@
-,Name,Mean time,Mean moves
-0,Puzzle: 6x6-1 - Algorithm: hillclimber,17.99,215.41
-1,Puzzle: 6x6-2 - Algorithm: hillclimber,8.33,155.38
-2,Puzzle: 6x6-3 - Algorithm: hillclimber,48.04,1195.47
-3,Puzzle: 9x9-4 - Algorithm: hillclimber,82.16,1296.86
-4,Puzzle: 9x9-5 - Algorithm: hillclimber,90.74,1075.6
-5,Puzzle: 9x9-6 - Algorithm: hillclimber,96.69,536.71

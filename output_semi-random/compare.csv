@@ -1,7 +1,0 @@
-,Name,Mean time,Mean moves
-0,Puzzle: 6x6-1 - Algorithm: semi-random,0.01,70361.7
-1,Puzzle: 6x6-2 - Algorithm: semi-random,0.01,113621.37
-2,Puzzle: 6x6-3 - Algorithm: semi-random,0.01,124078.78
-3,Puzzle: 9x9-4 - Algorithm: semi-random,0.01,99710.62
-4,Puzzle: 9x9-5 - Algorithm: semi-random,0.01,52244.08
-5,Puzzle: 9x9-6 - Algorithm: semi-random,0.02,111936.56
