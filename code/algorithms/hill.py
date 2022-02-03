@@ -22,6 +22,11 @@ class Hill():
         # start algorithm timer
         self.start = timeit.default_timer()
 
+        # set gamestatus back to running, reload inital position and place cars
+        self.board.running = True
+        self.board.cars = pickle.loads(pickle.dumps(self.board._cars_init))
+        self.board.place_car(self.board.cars)
+
         # run semi-random algorithm and save found path
         semi_random = Semi_random(self.board, hill=True)
         path = semi_random.semi_random()
